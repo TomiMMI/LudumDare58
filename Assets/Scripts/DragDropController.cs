@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -20,7 +22,7 @@ public class DragDropController : MonoBehaviour
     private float dragSpeed = 100f;
 
         [SerializeField]
-    private List<Transform> selectedObjects;
+    private List<Rigidbody2D> selectedObjects;
 
     private Vector2 mouseLastWorldPosition;
     private float mouseDownTime;
@@ -30,7 +32,7 @@ public class DragDropController : MonoBehaviour
     void Start()
     {
         DragDropController.Instance = this;
-        selectedObjects = new List<Transform>();
+        selectedObjects = new List<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -41,7 +43,7 @@ public class DragDropController : MonoBehaviour
             case DragState.None:
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Transform temp = this.GetGemAtMousePosition();
+                    Rigidbody2D temp = this.GetGemAtMousePosition();
                     if (temp != null)
                     {
                         if (this.selectedObjects.Contains(temp))
@@ -69,9 +71,15 @@ public class DragDropController : MonoBehaviour
                     mouseDownTime = 0;
                     mouseLastWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                    foreach (Transform obj in selectedObjects)
+                    foreach (Rigidbody2D obj in selectedObjects)
                     {
+                        if(obj == null)
+                        {
+                            selectedObjects.Remove(obj);
+                        }
                         obj.gameObject.layer = LayerMask.NameToLayer("Selected Gems");
+
+                        obj.bodyType = RigidbodyType2D.Dynamic;
                     }
                     this.currentState = DragState.Dragging;
                 }
@@ -93,47 +101,59 @@ public class DragDropController : MonoBehaviour
     private void Drag()
     {
         Vector2 moveDelta = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - mouseLastWorldPosition;
-        foreach (Transform obj in selectedObjects)
+        foreach (Rigidbody2D obj in selectedObjects.ToList())
         {
-            obj.GetComponent<Rigidbody2D>().linearVelocity = (moveDelta + ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)obj.transform.position)) * Time.deltaTime * dragSpeed;
-            Debug.Log(obj.GetComponent<Rigidbody2D>().linearVelocity);
+            if(obj == null)
+            {
+                selectedObjects.Remove(obj);
+                continue;
+            }
+            obj.linearVelocity = (moveDelta + ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)obj.transform.position)) * Time.deltaTime * dragSpeed;
+            Debug.Log(obj.linearVelocity);
         }
         this.mouseLastWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
 
-    private bool UpdateSelectionList(Transform newSelection)
+    private bool UpdateSelectionList(Rigidbody2D newSelection)
     {
         if (selectedObjects.Contains(newSelection))
         {
+            newSelection.transform.DOScale(1,0.2f);
             selectedObjects.Remove(newSelection);
             return false;
         }
         else
         {
+            newSelection.transform.DOScale(1.1f,0.2f);
             selectedObjects.Add(newSelection);
             return true;
         }
     }
 
-    private Transform GetGemAtMousePosition()
+    private Rigidbody2D GetGemAtMousePosition()
     {
         Ray temp = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hitInfo = Physics2D.GetRayIntersection(temp, Mathf.Infinity);
-        if (hitInfo.transform != null)
+        RaycastHit2D[] hitInfo = Physics2D.GetRayIntersectionAll(temp, Mathf.Infinity);
+        foreach(RaycastHit2D hit in hitInfo)
         {
-            return hitInfo.transform;
+            if (hit.transform != null && hit.transform.GetComponent<Rigidbody2D>() is Rigidbody2D rb && rb != null)
+            {
+                return rb;
+            }
+
         }
         return null;
     }
 
     private void StopDragging()
     {
-        foreach (Transform obj in selectedObjects)
+        foreach (Rigidbody2D rb in selectedObjects)
         {
-            obj.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
-            obj.GetComponent<Rigidbody2D>().angularVelocity = 0f;
-            obj.gameObject.layer = LayerMask.NameToLayer("Default");
+            rb.transform.DOScale(1, 0.2f);
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.gameObject.layer = LayerMask.NameToLayer("Default");
         }
         this.selectedObjects.Clear();
     }

@@ -85,7 +85,7 @@ public class SpawnLoop : MonoBehaviour
                 m_HandPositions.Add(new Vector3(m_TableSpriteRenderer.bounds.min.x + x * intervalX + TableMargin, m_TableSpriteRenderer.bounds.min.y + intervalY * y + TableMargin));
             }
         }
-    }
+    }   
 
     public IEnumerator corSpawnPiecesDebug()
     {

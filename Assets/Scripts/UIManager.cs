@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,13 @@ public class UIHandling : MonoBehaviour
 
     public Camera Cam;
     public float CameraMoveDuration;
+
+    public PlayerScript player;
+    [SerializeField]
+    private GemInventory m_InventoryParent;
+
+    public GemData debug_GemData;
+
     private void Start()
     {
         Cam = Camera.main;
@@ -32,7 +40,20 @@ public class UIHandling : MonoBehaviour
         //MOVE TO SCREEN TWO
         Cam.transform.DOMove( new Vector3(TransformScreen2.position.x, TransformScreen2.position.y,Cam.transform.position.z), CameraMoveDuration).SetEase(Ease.OutQuart);
         //TODO : add checks to remove the current gem from the player drag
-    
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        _DebugAddGem();
+        UpdatePlayerInventory();
     }
 
 
@@ -41,6 +62,25 @@ public class UIHandling : MonoBehaviour
         //MOVE TO SCREEN ONE
         Cam.transform.DOMove(new Vector3(TransformScreen1.position.x, TransformScreen1.position.y, Cam.transform.position.z), CameraMoveDuration).SetEase(Ease.OutQuart);
 
+    }
+
+    public void _DebugAddGem()
+    {
+        GemInfos gemInfos = new GemInfos(debug_GemData);
+        player.GemsInInventory.Add(gemInfos);
+    }
+
+    public void UpdatePlayerInventory()
+    {
+        foreach(GemInfos gemInfos in player.GemsInInventory.Except(player.CurrentGems.Keys))
+        {
+            Gem gem = m_InventoryParent.AddToInventory(gemInfos);
+            if(gem != null)
+            {
+                player.CurrentGems[gemInfos] = gem;
+            }
+
+        }
     }
 
 }
