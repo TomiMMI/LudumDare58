@@ -176,6 +176,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe2feda283a50741addc09c8dbc00e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_spriteOpened: {fileID: 5524746366323388265, guid: 899d29127d42d0e448b9894173cf8f99, type: 3}
+  m_spriteClosed: {fileID: -2029628360212015750, guid: 177ae408aa8c4f74485a19b927b034b5, type: 3}
+  m_spriteRenderer: {fileID: 1543496654683325301}
   m_maxShakeStrength: 1
   m_grabTimer: 2
   m_minTimeHand: 0.2
@@ -257,7 +260,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: -4496919750732184814, guid: 46d938692b51e034ca4cf5adfcf3cf3d, type: 3}
+  m_Sprite: {fileID: -2029628360212015750, guid: 177ae408aa8c4f74485a19b927b034b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

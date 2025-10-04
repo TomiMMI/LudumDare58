@@ -18,11 +18,20 @@ public class Main : MonoBehaviour
     private Vector3 m_startingPosition;
     private Vector3 m_destination;
 
+    [SerializeField]
+    private Sprite  m_spriteOpened;
+    [SerializeField]
+    private Sprite m_spriteClosed;
+
+    [SerializeField]
+    private SpriteRenderer m_spriteRenderer;
     private float m_speed;
 
     public float m_maxShakeStrength = 1f;
     [SerializeField]
     private float m_grabTimer = 2f;
+    [SerializeField]
+    private float m_waitBeforeLeaving = 1f;
     [SerializeField]
     private float m_minTimeHand, m_maxTimeHand;
     [SerializeField]
@@ -36,7 +45,7 @@ public class Main : MonoBehaviour
         m_destination = destination;
         TravelToPosition(m_destination);
         StartCoroutine(UpdateLoop());
-
+        m_spriteRenderer.sprite = m_spriteOpened;
     }
 
     void Update()
@@ -81,12 +90,16 @@ public class Main : MonoBehaviour
             if (collider.name.Contains("Gem"))
             {
                 Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
-
+                rb.simulated = false;
                 rb.bodyType = RigidbodyType2D.Kinematic;
                 collider.transform.parent = transform;
             }
         }
+
+        m_spriteRenderer.sprite = m_spriteClosed;
         m_hasGrabbed = true;
+       
+        yield return new WaitForSeconds(m_waitBeforeLeaving);
         TravelOutOfScreen();
     }
     public void TravelToPosition(Vector3 position)
