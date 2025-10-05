@@ -60,6 +60,7 @@ public class Geode : MonoBehaviour
             this.GetComponent<Collider2D>().enabled = false;
             //TO DO : Spawn Gem
             GemSO GemSO = GeodesAndGemsUtilities.Instance.GetGemFromGeode(geodeType);
+            PlayerStats.Instance.TryToAddToCollection(GemSO);
             UIHandling.Instance.CreateAndAddGemToBag(transform, GemSO);
             this.StartCoroutine(WaitAndDestroy());
             return;

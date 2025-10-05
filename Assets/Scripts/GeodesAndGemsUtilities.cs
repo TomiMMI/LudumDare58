@@ -45,6 +45,8 @@ public class GeodesAndGemsUtilities : MonoBehaviour
     [SerializeField]
     private List<GemSO> gemList;
 
+    public List<GemSO> GemList => gemList;
+
 
     void Awake()
     {
@@ -73,12 +75,17 @@ public class GeodesAndGemsUtilities : MonoBehaviour
         }
         if (gemRequest.type != null)
         {
+            List<GemSO> temp2 = new List<GemSO>();
             foreach (GemSO gem in temp)
             {
                 if (gem.gemType != gemRequest.type)
                 {
-                    temp.Remove(gem);
+                    temp2.Add(gem);
                 }
+            }
+            if (temp2.Count > 0)
+            {
+                return temp2[UnityEngine.Random.Range(0, temp.Count)];
             }
         }
         return temp[UnityEngine.Random.Range(0, temp.Count)];
