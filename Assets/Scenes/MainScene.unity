@@ -2401,6 +2401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041ba4cb8af31ac43bbe8f9928ee42af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basicGeodeSO: {fileID: 11400000, guid: 984ab396c5584524a888d22b2cefad0f, type: 2}
   hammerForce: 10
 --- !u!1 &944585598
 GameObject:
@@ -5557,10 +5558,10 @@ SpriteRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 932049173}
   - {fileID: 985353427}
   - {fileID: 859904713}
   - {fileID: 2014787207}
   - {fileID: 1235120848}
   - {fileID: 862863080}
-  - {fileID: 932049173}
   - {fileID: 1050469472}

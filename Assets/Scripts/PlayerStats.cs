@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    public GeodeSO basicGeodeSO;
     public static PlayerStats Instance { get; private set; }
 
 
@@ -35,6 +36,16 @@ public class PlayerStats : MonoBehaviour
         Geodes.Add(geodeInfos);
         CountGeodes();
     }
+
+    public void RemoveGeodeInfo(GeodeInfos geodeInfos)
+    {
+        if (Geodes.Contains(geodeInfos))
+        {
+            Geodes.Remove(geodeInfos);
+        }
+        CountGeodes();
+    }
+
     public void CountGeodes()
     {
 
@@ -50,6 +61,7 @@ public class PlayerStats : MonoBehaviour
     }
     void Awake()
     {
+        AddGeodeInfo(new GeodeInfos(basicGeodeSO));
         CountGeodes();
         PlayerStats.Instance = this;
     }

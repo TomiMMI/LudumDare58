@@ -73,7 +73,7 @@ public class GeodesAndGemsUtilities : MonoBehaviour
         }
         if (gemRequest.type != null)
         {
-            foreach (GemSO gem in temp)
+            foreach (GemSO gem in temp.ToList())
             {
                 if (gem.gemType != gemRequest.type)
                 {

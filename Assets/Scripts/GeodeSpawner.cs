@@ -1,12 +1,20 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GeodeSpawner : MonoBehaviour
 {
+
+    public static GeodeSpawner Instance { get; private set; }
+
+    private void Awake()
+    {
+        GeodeSpawner.Instance = this;
+    }
     public GeodeSO GeodeBadSO;
     public GeodeSO GeodeMidSO;
     public GeodeSO GeodeColorSO;
@@ -34,7 +42,6 @@ public class GeodeSpawner : MonoBehaviour
 
     public ToggleGroup TabGroup;
     public Transform GeodeBaseTransform;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -68,6 +75,7 @@ public class GeodeSpawner : MonoBehaviour
         BasicTab.isOn = true;
         ActiveTab = BasicTab;
         SpawnGeode();
+        UpdateTabInventory();
     }
 
     public void SwapTab(Toggle tg)
@@ -81,6 +89,15 @@ public class GeodeSpawner : MonoBehaviour
     {
         foreach(var keyVar in player.GeodeCounts)
         {
+            Toggle toggle = geodeTypesTab.First(x => x.Value == keyVar.Key).Key;
+            if (keyVar.Value == 0)
+            {
+                toggle.interactable = false;
+            }
+            else
+            {
+                toggle.interactable = true;
+            }
             GetText(keyVar.Key).text = keyVar.Value.ToString();
         }
     }
@@ -95,10 +112,18 @@ public class GeodeSpawner : MonoBehaviour
 
         if (ActiveGeode != null)
         {
-            Destroy(ActiveGeode.gameObject);
+            ActiveGeode.DestroyGeode();
         }
         ActiveGeode = GameObject.Instantiate<Geode>(GeodePrefab,GeodeBaseTransform);
         ActiveGeode.InitializeGeode(geodeInfos);
+
+        Action func = null;
+        func = () =>
+        {
+            UpdateTabInventory();
+            ActiveGeode.OnGeodeDestroyed -= func;
+        };
+        ActiveGeode.OnGeodeDestroyed += func;
         ActiveGeode.transform.localScale = Vector3.one * geodeInfos.GeodeSizeMultiplier;
         ActiveGeode.transform.DOPunchScale(Vector3.one * 0.1f,0.5f,2); 
 

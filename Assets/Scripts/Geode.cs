@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Unity.VisualScripting;
 using DG.Tweening;
+using System;
 
 public class Geode : MonoBehaviour
 {
-
+    public event Action OnGeodeDestroyed = delegate { };
     [SerializeField]
     private GeodeType geodeType;
     [SerializeField]
@@ -87,10 +88,17 @@ public class Geode : MonoBehaviour
             collision.gameObject.GetComponent<PlayerCursor>().SetCursorToHand();
         }
     }
-
+    public void DestroyGeode()
+    {
+        OnGeodeDestroyed();
+        Destroy(gameObject);
+    }
     private IEnumerator WaitAndDestroy()
     {
-        yield return new WaitForSeconds(3f);
+
+        PlayerStats.Instance.RemoveGeodeInfo(GeodeInfos);
+        OnGeodeDestroyed();
+        yield return new WaitForSeconds(1f);
         Destroy(this.gameObject);
     }
     
