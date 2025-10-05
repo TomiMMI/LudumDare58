@@ -25,6 +25,7 @@ public class PlayerCursor : MonoBehaviour
     public Tween hammerRotateBackTween;
 
     public Vector3 startEulerAngles;
+    public Vector2 offset;
     void Start()
     {
         Cursor.visible = false;
@@ -34,7 +35,7 @@ public class PlayerCursor : MonoBehaviour
 
     void Update()
     {
-        this.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector2(-transform.lossyScale.x, transform.lossyScale.y);
+        this.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - offset;
     }
     public void SetCursorToHammer()
     {
