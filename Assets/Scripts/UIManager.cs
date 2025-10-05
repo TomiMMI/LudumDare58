@@ -134,4 +134,22 @@ public class UIHandling : MonoBehaviour
         };
         pastMoney = newMoney;
     }
+
+    public int hammerUpgradeCost = 10;
+    public float hammerUpgradePowerScaling = 1.2f;
+    public void OnUpgradeHammerButtonClick()
+    {
+        if(player.money >= hammerUpgradeCost)
+        {
+            player.RemoveMoney(hammerUpgradeCost);
+            player.hammerForce += 10;
+
+        }
+    }
+
+
+    public void OnUpgradeGrinderButtonClick()
+    {
+
+    }
 }

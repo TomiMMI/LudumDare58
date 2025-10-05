@@ -35,7 +35,7 @@ public class PlayerStats : MonoBehaviour
     };
 
     [SerializeField]
-    private int hammerForce = 1;
+    public int hammerForce = 1;
 
     public int HammerForce => hammerForce;
 
