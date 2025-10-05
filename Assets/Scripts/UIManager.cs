@@ -1,7 +1,9 @@
 using DG.Tweening;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class UIHandling : MonoBehaviour
 {
@@ -26,10 +28,14 @@ public class UIHandling : MonoBehaviour
     public GemSO debug_GemSO;
     public Gem GemPrefab;
 
+    public TextMeshProUGUI MoneyText;
+    public TextMeshProUGUI MoneyText2;
     private void Start()
     {
         Cam = Camera.main;
         player = PlayerStats.Instance;
+        player.OnInventoryUpdated += UpdatePlayerInventory;
+        UpdatePlayerInventory();
     }
 
     private void Update()
@@ -47,7 +53,7 @@ public class UIHandling : MonoBehaviour
     public void _OnLeftScreenRightArrowPressed(Button button)
     {
         //MOVE TO SCREEN TWO
-        Cam.transform.DOMove( new Vector3(TransformScreen2.position.x, TransformScreen2.position.y,Cam.transform.position.z), CameraMoveDuration).SetEase(Ease.OutQuart);
+        Cam.transform.DOMove(new Vector3(TransformScreen2.position.x, TransformScreen2.position.y, Cam.transform.position.z), CameraMoveDuration).SetEase(Ease.OutQuart);
         //TODO : add checks to remove the current gem from the player drag
         //_DebugAddGem();
         //_DebugAddGem();
@@ -81,28 +87,29 @@ public class UIHandling : MonoBehaviour
 
     public void UpdatePlayerInventory()
     {
-        foreach(GemInfos gemInfos in player.GemsInInventory.Except(player.CurrentGems.Keys))
+        foreach (GemInfos gemInfos in player.GemsInInventory.Except(player.CurrentGems.Keys))
         {
             Gem gem = m_InventoryParent.AddToInventory(gemInfos);
-            if(gem != null)
+            if (gem != null)
             {
                 player.CurrentGems[gemInfos] = gem;
             }
 
         }
+        UpdateMoneyText(player.money);
     }
     public void CreateAndAddGemToBag(Transform GeodeTranform, GemSO gemSO)
     {
         GemInfos gemInfos = new GemInfos(gemSO);
         player.GemsInInventory.Add(gemInfos);
-         
+
         Gem gem = GameObject.Instantiate(GemPrefab);
         gem.InitializeGem(gemInfos);
         gem.transform.position = GeodeTranform.position;
         Sequence s = DOTween.Sequence();
-        s.Append(gem.transform.DOMoveY(gem.transform.position.y +2f, 0.5f));
+        s.Append(gem.transform.DOMoveY(gem.transform.position.y + 2f, 0.5f));
         s.AppendInterval(0.5f);
-        Tween moveTween = gem.transform.DOMove(GemBagTransform.position +new Vector3 (0,1f,0), 0.5f);
+        Tween moveTween = gem.transform.DOMove(GemBagTransform.position + new Vector3(0, 1f, 0), 0.5f);
         moveTween.onComplete += () =>
         {
             Destroy(gem.gameObject);
@@ -115,6 +122,16 @@ public class UIHandling : MonoBehaviour
 
         UpdatePlayerInventory();
     }
+    public int pastMoney = 0;
+    public void UpdateMoneyText(int newMoney)
+    {
 
-
+        int money = pastMoney;
+        Tween t = DOTween.To(() => money, x => money = x, newMoney, 0.5f);
+        t.onUpdate += () => {
+            MoneyText.text = "$$" + money.ToString();
+            MoneyText2.text = "$$" + money.ToString();
+        };
+        pastMoney = newMoney;
+    }
 }

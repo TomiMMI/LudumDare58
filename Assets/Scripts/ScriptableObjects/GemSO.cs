@@ -1,11 +1,10 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Gem", menuName = "Scriptable Objects/Gem")]
 public class GemSO : ScriptableObject
 {
-    public int GemID; 
+    public int GemID;
     public string gemName;
     public Sprite gemSprite;
     public GemRarity gemRarity;

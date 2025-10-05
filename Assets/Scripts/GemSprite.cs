@@ -1,7 +1,5 @@
 using UnityEngine;
-using System;
 using UnityEngine.UI;
-using Unity.VisualScripting;
 
 public class GemImage : MonoBehaviour
 {

@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -44,7 +45,7 @@ public class GeodeSpawner : MonoBehaviour
     public Transform GeodeBaseTransform;
 
     public TextMeshProUGUI BuyGemButtonText;
-    
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,7 +57,7 @@ public class GeodeSpawner : MonoBehaviour
             ColorTab,
             LegendaryTab,
         };
-        foreach(Toggle tg in Tabs)
+        foreach (Toggle tg in Tabs)
         {
             tg.onValueChanged.AddListener((state) =>
             {
@@ -66,7 +67,7 @@ public class GeodeSpawner : MonoBehaviour
                 }
             });
         }
-        
+
 
         geodeTypesTab = new()
         {
@@ -78,7 +79,7 @@ public class GeodeSpawner : MonoBehaviour
         };
         BasicTab.isOn = true;
         ActiveTab = BasicTab;
-        PlayerStats.Instance.OnInventoryUpdated += ()=> { UpdateTabInventory(); };
+        PlayerStats.Instance.OnInventoryUpdated += () => { UpdateTabInventory(); };
 
         SpawnGeode();
         UpdateTabInventory();
@@ -94,7 +95,7 @@ public class GeodeSpawner : MonoBehaviour
     }
     public void UpdateTabInventory()
     {
-        foreach(var keyVar in player.GeodeCounts)
+        foreach (var keyVar in player.GeodeCounts)
         {
 
             Toggle toggle = geodeTypesTab.First(x => x.Value == keyVar.Key).Key;
@@ -125,36 +126,44 @@ public class GeodeSpawner : MonoBehaviour
 
     public void SpawnGeode()
     {
-        if(ActiveTab == null)
+        if (ActiveTab == null)
         {
             ActiveTab = BasicTab;
         }
 
-        GeodeInfos geodeInfos = player.GetGeodeFromType(GetGeodeSO(geodeTypesTab[ActiveTab]).GeodeType); 
+        GeodeInfos geodeInfos = player.GetGeodeFromType(GetGeodeSO(geodeTypesTab[ActiveTab]).GeodeType);
 
-        if(geodeInfos == null)
+        if (geodeInfos == null)
         {
             return;
         }
+
         if (ActiveGeode != null)
         {
             ActiveGeode.DestroyGeode();
         }
-        ActiveGeode = GameObject.Instantiate<Geode>(GeodePrefab,GeodeBaseTransform);
+        ActiveGeode = GameObject.Instantiate<Geode>(GeodePrefab, GeodeBaseTransform);
         ActiveGeode.InitializeGeode(geodeInfos);
 
         Action func = null;
         func = () =>
         {
             UpdateTabInventory();
+            StartCoroutine(TrySpawnGeode());
             ActiveGeode.OnGeodeDestroyed -= func;
         };
         ActiveGeode.OnGeodeDestroyed += func;
         ActiveGeode.transform.localScale = Vector3.one * geodeInfos.GeodeSizeMultiplier;
-        ActiveGeode.transform.DOPunchScale(Vector3.one * 0.1f,0.5f,2); 
+        ActiveGeode.transform.DOPunchScale(Vector3.one * 0.1f, 0.5f, 2);
 
     }
-
+    public IEnumerator TrySpawnGeode()
+    {
+        yield return new WaitForSeconds(1);
+        ActiveGeode.gameObject.SetActive(false);
+        ActiveGeode = null;
+        SpawnGeode();
+    }
     public GeodeSO GetGeodeSO(GeodeType type)
     {
         switch (type)
@@ -173,6 +182,7 @@ public class GeodeSpawner : MonoBehaviour
     public void OnBuyGemButton()
     {
         player.AddGeodeInfo(new GeodeInfos(GetGeodeSO(geodeTypesTab[ActiveTab])));
+        player.RemoveMoney(5);
         SpawnGeode();
         //REMOVE THE MONEY 
 

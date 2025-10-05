@@ -1,7 +1,4 @@
 using DG.Tweening;
-using System;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum CursorMode
@@ -46,13 +43,14 @@ public class PlayerCursor : MonoBehaviour
     void LateUpdate()
     {
         this.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - offset;
-        if(cursorMode == CursorMode.Classic)
+        if (cursorMode == CursorMode.Classic)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 handSpriteRenderer.sprite = handClosedSprite;
             }
-            if (Input.GetMouseButtonUp(0)) {
+            if (Input.GetMouseButtonUp(0))
+            {
                 handSpriteRenderer.sprite = handOpenedSprite;
             }
         }
@@ -78,12 +76,12 @@ public class PlayerCursor : MonoBehaviour
 
     public void HitWithHammer()
     {
-        if(hammerRotateBackTween != null)
+        if (hammerRotateBackTween != null)
         {
             hammerRotateBackTween.Kill();
             cursorSpriteRenderer.transform.eulerAngles = startEulerAngles;
         }
-        hammerRotateBackTween = cursorSpriteRenderer.transform.DORotate(cursorSpriteRenderer.transform.eulerAngles + new Vector3(0, 0, 75),0.1f);
+        hammerRotateBackTween = cursorSpriteRenderer.transform.DORotate(cursorSpriteRenderer.transform.eulerAngles + new Vector3(0, 0, 75), 0.1f);
         hammerRotateBackTween.onComplete += () =>
         {
             cursorSpriteRenderer.transform.DORotate(startEulerAngles, 0.15f);

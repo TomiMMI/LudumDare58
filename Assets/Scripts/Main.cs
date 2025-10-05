@@ -2,13 +2,8 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
-using UnityEditor.Toolbars;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.XR;
 
 public class Main : MonoBehaviour
 {
@@ -18,7 +13,7 @@ public class Main : MonoBehaviour
     private bool m_hasGrabbed = false;
     private Vector3 m_startingPosition;
     private Vector3 m_destination;
-     
+
 
     [SerializeField]
     private SpriteRenderer m_spriteRenderer;
@@ -62,7 +57,7 @@ public class Main : MonoBehaviour
             if (m_isActive)
             {
                 Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, m_grabRadius);
-                if(colliders.Any(x => x.name.Contains("Gem")))
+                if (colliders.Any(x => x.name.Contains("Gem")))
                 {
                     StartCoroutine(ActivateGrab());
                 }
@@ -78,7 +73,7 @@ public class Main : MonoBehaviour
     {
         m_isActive = false;
         //Shake 
-        Tween ShakeTween = transform.DOShakePosition(0.1f,transform.right*0.3f).SetLoops(-1);
+        Tween ShakeTween = transform.DOShakePosition(0.1f, transform.right * 0.3f).SetLoops(-1);
 
         yield return new WaitForSeconds(m_grabTimer);
         ShakeTween.Kill();
@@ -102,10 +97,10 @@ public class Main : MonoBehaviour
 
         //SCREEN SHAKE
         Camera.main.DOShakePosition(0.2f, 0.05f);
-        m_spriteRenderer.transform.DOScale(Vector3.one * 1.15f,0.2f);
+        m_spriteRenderer.transform.DOScale(Vector3.one * 1.15f, 0.2f);
         m_spriteRenderer.sprite = HandsSO.SpriteClosed;
         m_hasGrabbed = true;
-       
+
         yield return new WaitForSeconds(m_waitBeforeLeaving);
         TravelOutOfScreen();
     }
@@ -118,7 +113,7 @@ public class Main : MonoBehaviour
     public float CalculateHandValue()
     {
         float value = 0;
-        foreach(Gem gem in GrabbedGems)
+        foreach (Gem gem in GrabbedGems)
         {
             value += gem.gemInfos.GemSO.gemValue * HandsSO.richesMultiplier;
         }
@@ -150,8 +145,9 @@ public class Main : MonoBehaviour
         else
         {
             Debug.Log("WE GOT " + riches + " $$$");
+            PlayerStats.Instance.AddMoney((int)riches);
         }
-        
+
     }
 
     public Tween TravelToPosition(Vector3 position)
@@ -179,18 +175,18 @@ public class Main : MonoBehaviour
     {
         SpawnLoot();
         yield return new WaitForSeconds(0.5f);
-        foreach(Gem gem in GrabbedGems)
+        foreach (Gem gem in GrabbedGems)
         {
             gem.gameObject.SetActive(false);
         }
 
         yield return transform.DOLocalMove(m_destination, 0.2f).SetEase(Ease.OutQuart).WaitForCompletion();
-        if(ActiveGeode != null)
+        if (ActiveGeode != null)
         {
             ActiveGeode.transform.parent = null;
             //MOVE THE GEODE
-            
-            ActiveGeode.transform.DOMove(GeodeSpawner.Instance.transform.position, 1).SetDelay(1).onComplete += ()=> { Destroy(ActiveGeode.gameObject); };
+
+            ActiveGeode.transform.DOMove(GeodeSpawner.Instance.transform.position, 1).SetDelay(1).onComplete += () => { Destroy(ActiveGeode.gameObject); };
         }
         m_isActive = true;
         yield return transform.DOMove(m_startingPosition, 0.2f).SetEase(Ease.InQuart).WaitForCompletion();

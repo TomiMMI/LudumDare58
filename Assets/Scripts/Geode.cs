@@ -1,10 +1,8 @@
-using System.Collections.Generic;
-using System.Collections;
-using UnityEngine;
-using UnityEngine.Rendering;
-using Unity.VisualScripting;
 using DG.Tweening;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Geode : MonoBehaviour
 {
@@ -19,14 +17,14 @@ public class Geode : MonoBehaviour
 
     private SpriteRenderer m_spriteRenderer;
     private int[] hardnessThresholds;
-     private Color[] colors = new Color[] { Color.magenta, Color.yellow, Color.red };
+    private Color[] colors = new Color[] { Color.magenta, Color.yellow, Color.red };
     private int hardnessState = 0;
     public GeodeInfos GeodeInfos;
     void Awake()
     {
         m_spriteRenderer = GetComponent<SpriteRenderer>();
         hardnessThresholds = new int[] { (int)hardness / 3 * 2, (int)hardness / 3, 0 };
-            //this.GetComponent<SpriteRenderer>().sprite = geodeSprites[0];
+        //this.GetComponent<SpriteRenderer>().sprite = geodeSprites[0];
     }
 
     public void InitializeGeode(GeodeInfos geodeInfos)
@@ -46,7 +44,7 @@ public class Geode : MonoBehaviour
         //Cursor Hammer Animation
         //this.transform.DOShakePosition(0.1f,transform.right*0.3f);
         hardness -= PlayerStats.Instance.HammerForce;
-        this.transform.DOShakePosition(0.05f, transform.right * 0.1f, 1 );
+        this.transform.DOShakePosition(0.05f, transform.right * 0.1f, 1);
         PlayerCursor.Instance.HitWithHammer();
         GeodeUpdate();
     }
@@ -77,14 +75,14 @@ public class Geode : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast"))
         {
             collision.gameObject.GetComponent<PlayerCursor>().SetCursorToHammer();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast"))
         {
             collision.gameObject.GetComponent<PlayerCursor>().SetCursorToHand();
         }
@@ -102,5 +100,5 @@ public class Geode : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Destroy(this.gameObject);
     }
-    
+
 }

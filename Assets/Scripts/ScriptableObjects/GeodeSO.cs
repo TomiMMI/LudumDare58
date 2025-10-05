@@ -37,7 +37,7 @@ public class GeodeInfos
 
     // override object.GetHashCode
     public override int GetHashCode()
-    { 
+    {
         return guid.GetHashCode();
     }
 

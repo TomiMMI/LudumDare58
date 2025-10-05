@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    public int money = 0;
     public event Action OnInventoryUpdated = delegate { };
     public GeodeSO basicGeodeSO;
     public static PlayerStats Instance { get; private set; }
@@ -33,13 +33,24 @@ public class PlayerStats : MonoBehaviour
     {
         GeodeType.Pebble
     };
-    
+
     [SerializeField]
     private int hammerForce = 1;
 
     public int HammerForce => hammerForce;
 
-   
+
+    public void AddMoney(int moneyCount)
+    {
+        money += moneyCount;
+        OnInventoryUpdated();
+    }
+
+    public void RemoveMoney(int moneyCount)
+    {
+        money -= moneyCount;
+        OnInventoryUpdated();
+    }
 
     public void AddGeodeInfo(GeodeInfos geodeInfos)
     {
@@ -70,7 +81,7 @@ public class PlayerStats : MonoBehaviour
             GeodeCounts[GeodeCounts.Keys.ToList()[i]] = 0;
         }
 
-        foreach(GeodeInfos geode in Geodes)
+        foreach (GeodeInfos geode in Geodes)
         {
             GeodeCounts[geode.GemSO.GeodeType]++;
         }

@@ -1,5 +1,3 @@
-using DG.Tweening;
-using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,14 +6,14 @@ using UnityEngine;
 
 public enum GDirection
 {
-    UP,DOWN,LEFT,RIGHT
+    UP, DOWN, LEFT, RIGHT
 }
 public class SpawnLoop : MonoBehaviour
 {
     /// <summary>
     /// Where we will instantiate all of our hands
     /// </summary>
-    
+
     [SerializeField]
     private Transform m_HandsTransform;
 
@@ -27,7 +25,7 @@ public class SpawnLoop : MonoBehaviour
     /// </summary>
     [SerializeField]
     private List<Main> m_Hands;
-    
+
     [SerializeField]
     private SpriteRenderer m_TableSpriteRenderer;
 
@@ -40,7 +38,7 @@ public class SpawnLoop : MonoBehaviour
     public float HandSize = 5;
 
     public int MaxHandsAtOnce = 10;
-    private  int currentHands = 0;
+    private int currentHands = 0;
 
     private List<Vector3> m_HandPositions = new List<Vector3>();
     [SerializeField]
@@ -77,7 +75,7 @@ public class SpawnLoop : MonoBehaviour
         hands = Resources.LoadAll<HandsSO>("Scriptables/Hands").ToList();
         handWeights = new List<float>();
         maxRarity = 0;
-        foreach(HandsSO hand in hands)
+        foreach (HandsSO hand in hands)
         {
             maxRarity += hand.handRarity;
             handWeights.Add(maxRarity);
@@ -120,7 +118,7 @@ public class SpawnLoop : MonoBehaviour
     {
 
         m_lerpValue = 0;
-    
+
     }
 
     public void DayUpdate()
@@ -146,23 +144,23 @@ public class SpawnLoop : MonoBehaviour
     }
     public void MakePointList()
     {
-        float intervalY =( m_TableSpriteRenderer.bounds.size.y - TableMargin/2) / maxPointCountY;
-        float intervalX  = (m_TableSpriteRenderer.bounds.size.x- TableMargin/2) / maxPointCountX;
+        float intervalY = (m_TableSpriteRenderer.bounds.size.y - TableMargin / 2) / maxPointCountY;
+        float intervalX = (m_TableSpriteRenderer.bounds.size.x - TableMargin / 2) / maxPointCountX;
         for (int y = 0; y < maxPointCountY; y++)
         {
-            for(int x = 0; x < maxPointCountX; x++)
+            for (int x = 0; x < maxPointCountX; x++)
             {
-                if(y == 0 || y == maxPointCountY-1 || x == 0)
+                if (y == 0 || y == maxPointCountY - 1 || x == 0)
                 {
-                   m_HandPositions.Add(new Vector3(m_TableSpriteRenderer.bounds.min.x + x * intervalX + TableMargin, m_TableSpriteRenderer.bounds.min.y + intervalY * y + TableMargin));
+                    m_HandPositions.Add(new Vector3(m_TableSpriteRenderer.bounds.min.x + x * intervalX + TableMargin, m_TableSpriteRenderer.bounds.min.y + intervalY * y + TableMargin));
                 }
             }
         }
-    }   
+    }
 
     public IEnumerator corSpawnPiecesDebug()
     {
-        int i = UnityEngine.Random.Range(0,m_HandPositions.Count -1);
+        int i = UnityEngine.Random.Range(0, m_HandPositions.Count - 1);
         while (true)
         {
             float spawnSpeed = Mathf.Lerp(m_MaxHandSpawnSpeed, m_MinHandSpawnSpeed, m_SpawnCurve.Evaluate(m_lerpValue));
@@ -178,11 +176,11 @@ public class SpawnLoop : MonoBehaviour
             Vector3 point = m_HandPositions[i];
             //Get a point in the sprite;
             Main hand = GameObject.Instantiate(HandPrefab, m_HandsTransform).GetComponent<Main>();
-            if(point.y > 0)
+            if (point.y > 0)
             {
                 hand.transform.localEulerAngles = new Vector3(0, 0, 180);
             }
-            if(point.x < m_LeftSideTranform.localPosition.x)
+            if (point.x < m_LeftSideTranform.localPosition.x)
             {
                 hand.transform.localEulerAngles = new Vector3(0, 0, 270);
             }
@@ -194,29 +192,30 @@ public class SpawnLoop : MonoBehaviour
             //CHOOSE THE HAND SCRIPTABLE OBJECT
             float randomRarity = UnityEngine.Random.Range(0, maxRarity);
             HandsSO handsSO = null;
-            for(int j = 0; j < hands.Count -1; j++)
+            for (int j = 0; j < hands.Count - 1; j++)
             {
-                if (handWeights[j]<=  randomRarity && handWeights[j+1] >= randomRarity)
+                if (handWeights[j] <= randomRarity && handWeights[j + 1] >= randomRarity)
                 {
                     handsSO = hands[j];
                     break;
                 }
             }
-            if(handsSO == null)
+            if (handsSO == null)
             {
                 Debug.LogError("COULDN'T FIND A VALID HAND YOUR RANDOM IS FUCKED UP");
                 handsSO = hands[0];
             }
-            hand.Initialize(point, handsSO );
+            hand.Initialize(point, handsSO);
             currentHands++;
 
             Action func = null;
             func = () =>
             {
-                currentHands -- ;
+                currentHands--;
                 hand.OnHandDestroyed -= func;
             };
-            hand.OnHandDestroyed += () => {
+            hand.OnHandDestroyed += () =>
+            {
                 func();
             };
             i = (i + 3) % m_HandPositions.Count;

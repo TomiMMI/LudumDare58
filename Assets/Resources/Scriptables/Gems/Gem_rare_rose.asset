@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094bbe6cb9f7aea44aa2c06646ddc05d, type: 3}
   m_Name: Gem_rare_rose
   m_EditorClassIdentifier: 
-  GemID: 3
+  GemID: 9
   gemName: Quartz
-  gemSprite: {fileID: -1353708007201800, guid: 53652c78f711f924c8606df9adb1ed56, type: 3}
+  gemSprite: {fileID: 21300000, guid: 53652c78f711f924c8606df9adb1ed56, type: 3}
   gemRarity: 1
   gemType: 0
   gemValue: 4

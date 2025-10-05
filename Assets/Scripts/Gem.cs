@@ -27,10 +27,10 @@ public class Gem : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.name.Contains("Background"))
+        if (other.name.Contains("Bag"))
         {
             //Put the sorting layer under the hands
-            SpriteRenderer.sortingOrder = 9;
+            SpriteRenderer.sortingOrder = 8;
         }
     }
     public void Disable()

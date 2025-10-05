@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GemInventory : MonoBehaviour
 {
@@ -55,7 +53,7 @@ public class GemInventory : MonoBehaviour
     public Gem AddToInventory(GemInfos GemSO)
     {
         Vector3? vec = GetFreePosition();
-        if(vec == null )
+        if (vec == null)
         {
             Debug.LogError("Inventory is full not adding the gem");
             return null;

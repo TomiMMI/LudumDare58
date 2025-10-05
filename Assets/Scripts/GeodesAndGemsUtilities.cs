@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GeodesAndGemsUtilities : MonoBehaviour
@@ -16,8 +14,8 @@ public class GeodesAndGemsUtilities : MonoBehaviour
         {new GemRequest(GemRarity.Epic),10},
         {new GemRequest(GemRarity.Legendary),1}
     };
-    
-        //TO IMPROVE
+
+    //TO IMPROVE
     [SerializeField]
     private Dictionary<GemRequest, int> midLootTable = new Dictionary<GemRequest, int>
     {

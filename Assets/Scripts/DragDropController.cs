@@ -1,10 +1,7 @@
 using DG.Tweening;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 public class DragDropController : MonoBehaviour
 {
@@ -21,7 +18,7 @@ public class DragDropController : MonoBehaviour
     [SerializeField]
     private float dragSpeed = 100f;
 
-        [SerializeField]
+    [SerializeField]
     private List<Rigidbody2D> selectedObjects;
 
     private Vector2 mouseLastWorldPosition;
@@ -73,7 +70,7 @@ public class DragDropController : MonoBehaviour
 
                     foreach (Rigidbody2D obj in selectedObjects)
                     {
-                        if(obj == null)
+                        if (obj == null)
                         {
                             selectedObjects.Remove(obj);
                         }
@@ -103,7 +100,7 @@ public class DragDropController : MonoBehaviour
         Vector2 moveDelta = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - mouseLastWorldPosition;
         foreach (Rigidbody2D obj in selectedObjects.ToList())
         {
-            if(obj == null)
+            if (obj == null)
             {
                 selectedObjects.Remove(obj);
                 continue;
@@ -118,13 +115,13 @@ public class DragDropController : MonoBehaviour
     {
         if (selectedObjects.Contains(newSelection))
         {
-            newSelection.transform.DOScale(1,0.2f);
+            newSelection.transform.DOScale(1, 0.2f);
             selectedObjects.Remove(newSelection);
             return false;
         }
         else
         {
-            newSelection.transform.DOScale(1.1f,0.2f);
+            newSelection.transform.DOScale(1.1f, 0.2f);
             selectedObjects.Add(newSelection);
             return true;
         }
@@ -134,9 +131,9 @@ public class DragDropController : MonoBehaviour
     {
         Ray temp = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D[] hitInfo = Physics2D.GetRayIntersectionAll(temp, Mathf.Infinity);
-        foreach(RaycastHit2D hit in hitInfo)
+        foreach (RaycastHit2D hit in hitInfo)
         {
-            if (hit.transform != null && hit.transform.GetComponent<Gem>() is Gem gem && gem != null &&  hit.transform.GetComponent<Rigidbody2D>() is Rigidbody2D rb && rb != null)
+            if (hit.transform != null && hit.transform.GetComponent<Gem>() is Gem gem && gem != null && hit.transform.GetComponent<Rigidbody2D>() is Rigidbody2D rb && rb != null)
             {
                 return rb;
             }
