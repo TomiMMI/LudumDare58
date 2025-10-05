@@ -9,12 +9,15 @@ public class PlayerStats : MonoBehaviour
     public GeodeSO basicGeodeSO;
     public static PlayerStats Instance { get; private set; }
 
+    [SerializeField]
+    private Collection collection;
 
     //Gems that are already in the inventory 
     public Dictionary<GemInfos, Gem> CurrentGems = new Dictionary<GemInfos, Gem>();
     //Add gemInfos in here 
     public List<GemInfos> GemsInInventory = new List<GemInfos>();
 
+    private List<GemSO> gemCollection = new List<GemSO>();
 
     public List<GeodeInfos> Geodes = new List<GeodeInfos>();
     public Dictionary<GeodeType, int> GeodeCounts = new()
@@ -57,6 +60,23 @@ public class PlayerStats : MonoBehaviour
         foreach(GeodeInfos geode in Geodes)
         {
             GeodeCounts[geode.GemSO.GeodeType]++;
+        }
+    }
+
+        public void TryToAddToCollection(GemSO gemSO)
+    {
+        if (!gemCollection.Contains(gemSO))
+        {
+            gemCollection.Add(gemSO);
+            collection.RevealGem(gemSO.GemID);
+            Debug.Log("New gem : " + gemSO.gemName);
+            //Todo : Drag to collection UI
+        }
+        else
+        {
+            Debug.Log("Gem already existing : " + gemSO.gemName);
+            GemsInInventory.Add(new GemInfos(gemSO));
+            //Todo : Drag to left of the screen
         }
     }
     void Awake()

@@ -11,6 +11,8 @@ public class HandsSO : ScriptableObject
 
     public List<GemSO> wantedGems;
 
+    public GeodeSO DroppedGeode;
+
     public float richesMultiplier = 1;
 
     public float handRarity = 1;

@@ -132,6 +132,12 @@ public class Main : MonoBehaviour
             //Increase the geode size along with the riches multiplier
 
             Debug.Log("WE GOT A HUGE GEODE OF VALUE " + riches + " $$$");
+            // INSTANTIATE THE GEODE
+            //DROP IT ON THE TABLE 
+            //DISABLE HAMMER 
+            //SEND IT TO THE RIGHT
+            PlayerStats.Instance.AddGeodeInfo(new GeodeInfos(HandsSO.DroppedGeode));
+
         }
         else
         {

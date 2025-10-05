@@ -45,14 +45,14 @@ public class GeodesAndGemsUtilities : MonoBehaviour
     [SerializeField]
     private List<GemSO> gemList;
 
+    public List<GemSO> GemList => gemList;
+
 
     void Awake()
     {
         GeodesAndGemsUtilities.Instance = this;
-    }
-    private void Start()
-    {
         gemList = Resources.LoadAll<GemSO>("Scriptables/Gems").ToList();
+
     }
 
     public GemSO GetGemFromGeode(GeodeType geodeType)
@@ -77,11 +77,17 @@ public class GeodesAndGemsUtilities : MonoBehaviour
             {
                 if (gem.gemType != gemRequest.type)
                 {
-                    temp.Remove(gem);
+                    temp.Add(gem);
                 }
             }
         }
-        return temp[UnityEngine.Random.Range(0, temp.Count)];
+
+        if (temp.Count > 0)
+        {
+            return temp[UnityEngine.Random.Range(0, temp.Count)];
+        }
+        //HANDLE THIS
+        return null;
     }
 
     private GemRequest GetGemRequestFromLootTable(GeodeType type)
