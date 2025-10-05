@@ -11,16 +11,16 @@ public class UIHandling : MonoBehaviour
     public Camera Cam;
     public float CameraMoveDuration;
 
-    public PlayerScript player;
+    public PlayerStats player;
     [SerializeField]
     private GemInventory m_InventoryParent;
 
-    public GemData debug_GemData;
+    public GemSO debug_GemSO;
 
     private void Start()
     {
         Cam = Camera.main;
-        
+        player = PlayerStats.Instance;
     }
 
     private void Update()
@@ -66,7 +66,7 @@ public class UIHandling : MonoBehaviour
 
     public void _DebugAddGem()
     {
-        GemInfos gemInfos = new GemInfos(debug_GemData);
+        GemInfos gemInfos = new GemInfos(debug_GemSO);
         player.GemsInInventory.Add(gemInfos);
     }
 

@@ -52,7 +52,7 @@ public class GemInventory : MonoBehaviour
     }
 
 
-    public Gem AddToInventory(GemInfos gemData)
+    public Gem AddToInventory(GemInfos GemSO)
     {
         Vector3? vec = GetFreePosition();
         if(vec == null )

@@ -17,7 +17,7 @@ public class Gem : MonoBehaviour
     public void InitializeGem(GemInfos gemInfos)
     {
         this.gemInfos = gemInfos;
-        SpriteRenderer.sprite = gemInfos.gemData.GemSprite;
+        SpriteRenderer.sprite = gemInfos.GemSO.gemSprite;
     }
 
     private void OnTriggerExit2D(Collider2D other)

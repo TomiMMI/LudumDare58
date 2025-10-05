@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Unity.VisualScripting;
+using DG.Tweening;
 
 public class Geode : MonoBehaviour
 {
@@ -35,25 +36,13 @@ public class Geode : MonoBehaviour
         //Cursor Hammer Animation
         //this.transform.DOShakePosition(0.1f,transform.right*0.3f);
         hardness -= PlayerStats.Instance.HammerForce;
-        GeodeUpdateDEBUG();
+        this.transform.DOShakePosition(0.05f, transform.right * 0.1f, 1 );
+        PlayerCursor.Instance.HitWithHammer();
+        GeodeUpdate();
     }
 
+
     private void GeodeUpdate()
-    {
-        if (hardness <= 0)
-        {
-            this.GetComponent<SpriteRenderer>().sprite = geodeSprites[geodeSprites.Count - 1];
-            this.GetComponent<Collider2D>().enabled = false;
-            //TO DO : Spawn Gem
-        }
-        if (hardness <= hardnessThresholds[hardnessState])
-        {
-            hardnessState++;
-            this.GetComponent<SpriteRenderer>().sprite = geodeSprites[hardnessState];
-            //this.transform.DOShakePosition(0.1f,transform.right*0.3f, 1 * hardnessState);
-        }
-    }
-        private void GeodeUpdateDEBUG()
     {
         Debug.Log(hardness);
         if (hardness <= 0)
@@ -61,6 +50,7 @@ public class Geode : MonoBehaviour
             this.GetComponent<SpriteRenderer>().color = Color.red;
             this.GetComponent<Collider2D>().enabled = false;
             //TO DO : Spawn Gem
+            GemSO GemSO = GeodesAndGemsUtilities.Instance.GetGemFromGeode(geodeType);
             this.StartCoroutine(WaitAndDestroy());
             return;
         }
@@ -68,7 +58,7 @@ public class Geode : MonoBehaviour
         {
             hardnessState++;
             this.GetComponent<SpriteRenderer>().color = colors[hardnessState];
-            //this.transform.DOShakePosition(0.1f,transform.right*0.3f, 1 * hardnessState);
+            this.transform.DOShakePosition(0.1f, transform.right * 0.3f, 1 * hardnessState);
         }
     }
 
@@ -79,7 +69,7 @@ public class Geode : MonoBehaviour
             collision.gameObject.GetComponent<PlayerCursor>().SetCursorToHammer();
         }
     }
-        private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast"))
         {
