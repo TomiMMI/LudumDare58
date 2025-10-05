@@ -29,8 +29,6 @@ public class PlayerStats : MonoBehaviour
         { GeodeType.Colorful,0 },
         { GeodeType.Gigageode,0 },
     };
-<<<<<<< Updated upstream
-
     public List<GeodeType> DiscoveredGeodeTypes = new()
     {
         GeodeType.Pebble
@@ -53,21 +51,12 @@ public class PlayerStats : MonoBehaviour
         money -= moneyCount;
         OnInventoryUpdated();
     }
-=======
-
-    public int HammerForce => hammerForce;
 
     public float GrinderGrindSpeed => grinderGrindSpeed;
-    [SerializeField]
-    private int hammerForce = 1;
     private float grinderGrindSpeed = 1;
 
     private List<GemSO> gemCollection = new List<GemSO>();
 
-
-
-
->>>>>>> Stashed changes
 
     public void AddGeodeInfo(GeodeInfos geodeInfos)
     {
@@ -120,13 +109,10 @@ public class PlayerStats : MonoBehaviour
             //Todo : Drag to left of the screen
         }
     }
-<<<<<<< Updated upstream
     public GeodeInfos GetGeodeFromType(GeodeType type)
     {
         return Geodes.FirstOrDefault(x => x.GemSO.GeodeType == type);
     }
-
-=======
     public void SpawnSuicidalTextAtLocation(Vector3 position, String text, Vector2 movementVector, Vector2 sizeVector, float time)
     {
         Instantiate(suicididalTextPrefab, position, suicididalTextPrefab.transform.rotation).GetComponent<SuicidalText>().SetupText(text, movementVector, sizeVector, time);
@@ -135,7 +121,7 @@ public class PlayerStats : MonoBehaviour
     {
         Instantiate(suicididalTextPrefab, position, suicididalTextPrefab.transform.rotation).GetComponent<SuicidalText>().SetupText(text, movementVector, time);
     }
->>>>>>> Stashed changes
+
     void Awake()
     {
         AddGeodeInfo(new GeodeInfos(basicGeodeSO));
