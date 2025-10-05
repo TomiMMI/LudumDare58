@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58bc0cf0e5efd514c834e460c8bb6ad9, type: 3}
   m_Name: GeodeBad
   m_EditorClassIdentifier: 
-  GeodeSprite: {fileID: 0}
+  GeodeSprite: {fileID: 6478711873305241030, guid: 2fe05b08d6831a7458af83656acd74ad, type: 3}
   GeodeType: 0
