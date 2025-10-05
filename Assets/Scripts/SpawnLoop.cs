@@ -46,24 +46,81 @@ public class SpawnLoop : MonoBehaviour
     private int maxPointCountX = 3;
     [SerializeField]
     private int maxPointCountY = 3;
+
+
+    /// <summary>
+    /// Time values 
+    /// </summary>
+    public float StartOfDay = 6;
+    public float EndOfDay = 18;
+    public float CurrentTimeLerped;
+    private float m_timer;
+    private float m_lerpValue;
+    [SerializeField]
+    private float GameDuration;
+    [SerializeField]
+    public float m_MaxHandSpawnSpeed = 5f;
+    [SerializeField]
+    public float m_MinHandSpawnSpeed = 0.2f;
+    //This handles the hands spawn rate. Low at first, then ramps up to be very fast !
+    public AnimationCurve m_SpawnCurve;
+    
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
         MakePointList();
         StartCoroutine(corSpawnPiecesDebug());
+        StartDay();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        DayUpdate();
+
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            Time.timeScale = 5;
+            Debug.Log("Time scale is " + Time.timeScale);
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            Time.timeScale = 0.2f;
+            Debug.Log("Time scale is " + Time.timeScale);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad0))
+        {
+            Time.timeScale = 0;
+            Debug.Log("Time scale is " + Time.timeScale);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            Time.timeScale = 1;
+            Debug.Log("Time scale is " + Time.timeScale);
+        }
+#endif
+    }
+    public void StartDay()
+    {
+
+        m_lerpValue = 0;
+    
     }
 
-    public void SpawnHand()
+    public void DayUpdate()
     {
-        ///
+        m_timer += Time.deltaTime;
+        m_lerpValue = m_timer / GameDuration;
+        CurrentTimeLerped = Mathf.Lerp(StartOfDay, EndOfDay, m_lerpValue);
     }
+    public float GetLerpedTime()
+    {
+        return m_lerpValue;
+    }
+
     /// <summary>
     /// Get a point in the table, with a gap to not have them right on the edge
     /// </summary>
@@ -92,10 +149,12 @@ public class SpawnLoop : MonoBehaviour
         int i = UnityEngine.Random.Range(0,m_HandPositions.Count -1);
         while (true)
         {
-            if(currentHands >= MaxHandsAtOnce)
+            float spawnSpeed = Mathf.Lerp(m_MaxHandSpawnSpeed, m_MinHandSpawnSpeed, m_SpawnCurve.Evaluate(m_lerpValue));
+            Debug.Log(spawnSpeed + " " + m_SpawnCurve.Evaluate(m_lerpValue));
+            yield return new WaitForSeconds(spawnSpeed);
+            if (currentHands >= MaxHandsAtOnce)
             {
                 Debug.Log("Too much hands !");
-                yield return new WaitForSeconds(2);
                 continue;
             }
 
@@ -116,7 +175,6 @@ public class SpawnLoop : MonoBehaviour
             hand.transform.localScale = Vector3.one;
             float speed = UnityEngine.Random.Range(0.2f, 1);
             hand.Initialize(point);
-            yield return new WaitForSeconds(5);
             currentHands++;
 
             Action func = null;
