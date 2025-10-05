@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    public event Action OnInventoryUpdated = delegate { };
     public GeodeSO basicGeodeSO;
     public static PlayerStats Instance { get; private set; }
 
@@ -27,6 +28,12 @@ public class PlayerStats : MonoBehaviour
         { GeodeType.Colorful,0 },
         { GeodeType.Gigageode,0 },
     };
+
+    public List<GeodeType> DiscoveredGeodeTypes = new()
+    {
+        GeodeType.Pebble
+    };
+    
     [SerializeField]
     private int hammerForce = 1;
 
@@ -36,8 +43,13 @@ public class PlayerStats : MonoBehaviour
 
     public void AddGeodeInfo(GeodeInfos geodeInfos)
     {
+        if (!DiscoveredGeodeTypes.Contains(geodeInfos.GemSO.GeodeType))
+        {
+            DiscoveredGeodeTypes.Add(geodeInfos.GemSO.GeodeType);
+        }
         Geodes.Add(geodeInfos);
         CountGeodes();
+        OnInventoryUpdated();
     }
 
     public void RemoveGeodeInfo(GeodeInfos geodeInfos)
@@ -47,6 +59,7 @@ public class PlayerStats : MonoBehaviour
             Geodes.Remove(geodeInfos);
         }
         CountGeodes();
+        OnInventoryUpdated();
     }
 
     public void CountGeodes()
@@ -63,7 +76,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-        public void TryToAddToCollection(GemSO gemSO)
+    public void TryToAddToCollection(GemSO gemSO)
     {
         if (!gemCollection.Contains(gemSO))
         {
@@ -79,6 +92,11 @@ public class PlayerStats : MonoBehaviour
             //Todo : Drag to left of the screen
         }
     }
+    public GeodeInfos GetGeodeFromType(GeodeType type)
+    {
+        return Geodes.FirstOrDefault(x => x.GemSO.GeodeType == type);
+    }
+
     void Awake()
     {
         AddGeodeInfo(new GeodeInfos(basicGeodeSO));

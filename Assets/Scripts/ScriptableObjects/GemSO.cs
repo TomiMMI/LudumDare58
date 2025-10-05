@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Gem", menuName = "Scriptable Objects/Gem")]
@@ -33,7 +34,8 @@ public class GemInfos
             return false;
         }
 
-        return guid.Equals(guid);
+        GemInfos go = (GemInfos)obj;
+        return go.guid.Equals(guid);
     }
 
     // override object.GetHashCode

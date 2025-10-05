@@ -12,12 +12,12 @@ public class Gem : MonoBehaviour
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
+        //gemInfos = new GemInfos(defaultGemSO);
+        //InitializeGem(gemInfos);
     }
     private void Start()
     {
         m_Rigidbody.bodyType = RigidbodyType2D.Kinematic;
-        gemInfos = new GemInfos(defaultGemSO);
-        InitializeGem(gemInfos);
     }
     public void InitializeGem(GemInfos gemInfos)
     {

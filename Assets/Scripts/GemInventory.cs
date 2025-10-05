@@ -64,6 +64,7 @@ public class GemInventory : MonoBehaviour
         //Add it into the right inventory 
         Gem Gem = GameObject.Instantiate(GemPrefab, transform);
         Gem.transform.localScale = Vector3.one;
+        Gem.InitializeGem(GemSO);
         //Set it above the inventory background sorting layer
         Gem.SpriteRenderer.sortingOrder = 21;
         //Preferably in a place far spaced from each others

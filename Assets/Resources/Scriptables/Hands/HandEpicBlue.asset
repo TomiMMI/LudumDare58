@@ -19,5 +19,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0fccbda97d127834892f160613506c34, type: 2}
   - {fileID: 11400000, guid: 9996a6bf7821bad46a6003590239e102, type: 2}
   - {fileID: 11400000, guid: 8ecb0ee30e5b50b498ac349a402418ad, type: 2}
+  DroppedGeode: {fileID: 11400000, guid: 13a9dd9a725402549a3cccdd581c11bb, type: 2}
   richesMultiplier: 3
   handRarity: 0.3

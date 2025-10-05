@@ -152,7 +152,10 @@ public class SpawnLoop : MonoBehaviour
         {
             for(int x = 0; x < maxPointCountX; x++)
             {
-                m_HandPositions.Add(new Vector3(m_TableSpriteRenderer.bounds.min.x + x * intervalX + TableMargin, m_TableSpriteRenderer.bounds.min.y + intervalY * y + TableMargin));
+                if(y == 0 || y == maxPointCountY-1 || x == 0)
+                {
+                   m_HandPositions.Add(new Vector3(m_TableSpriteRenderer.bounds.min.x + x * intervalX + TableMargin, m_TableSpriteRenderer.bounds.min.y + intervalY * y + TableMargin));
+                }
             }
         }
     }   

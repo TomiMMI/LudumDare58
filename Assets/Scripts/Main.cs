@@ -36,6 +36,7 @@ public class Main : MonoBehaviour
 
     public HandsSO HandsSO;
     public List<Gem> GrabbedGems = new List<Gem>();
+    public Geode ActiveGeode = null;
     void Start()
     {
     }
@@ -136,8 +137,15 @@ public class Main : MonoBehaviour
             //DROP IT ON THE TABLE 
             //DISABLE HAMMER 
             //SEND IT TO THE RIGHT
-            PlayerStats.Instance.AddGeodeInfo(new GeodeInfos(HandsSO.DroppedGeode));
+            GeodeInfos geodeInfos = new GeodeInfos(HandsSO.DroppedGeode);
 
+
+            PlayerStats.Instance.AddGeodeInfo(geodeInfos);
+            Geode geode = GameObject.Instantiate<Geode>(GeodeSpawner.Instance.GeodePrefab, transform);
+            geode.InitializeGeode(geodeInfos);
+            geode.transform.localScale *= geodeInfos.GeodeSizeMultiplier;
+
+            ActiveGeode = geode;
         }
         else
         {
@@ -146,7 +154,7 @@ public class Main : MonoBehaviour
         
     }
 
-    public void TravelToPosition(Vector3 position)
+    public Tween TravelToPosition(Vector3 position)
     {
         m_startingPosition = transform.position;
         Tween tweenMovement = transform.DOLocalMove(position, m_speed).SetEase(Ease.OutQuart);
@@ -155,11 +163,12 @@ public class Main : MonoBehaviour
         {
             m_isActive = true;
         };
+        return tweenMovement;
     }
 
     public void TravelOutOfScreen()
     {
-        Tween tweenOutMovement = transform.DOMove(m_startingPosition, m_speed).SetEase(Ease.OutQuart);
+        Tween tweenOutMovement = transform.DOMove(m_startingPosition, 0.2f).SetEase(Ease.InQuart);
         tweenOutMovement.onComplete += () =>
         {
             //THIS IS WHEN WE WILL SPAWN GEMS ON SCREEN
@@ -170,6 +179,21 @@ public class Main : MonoBehaviour
     {
         SpawnLoot();
         yield return new WaitForSeconds(0.5f);
+        foreach(Gem gem in GrabbedGems)
+        {
+            gem.gameObject.SetActive(false);
+        }
+
+        yield return transform.DOLocalMove(m_destination, 0.2f).SetEase(Ease.OutQuart).WaitForCompletion();
+        if(ActiveGeode != null)
+        {
+            ActiveGeode.transform.parent = null;
+            //MOVE THE GEODE
+            
+            ActiveGeode.transform.DOMove(GeodeSpawner.Instance.transform.position, 1).SetDelay(1).onComplete += ()=> { Destroy(ActiveGeode.gameObject); };
+        }
+        m_isActive = true;
+        yield return transform.DOMove(m_startingPosition, 0.2f).SetEase(Ease.InQuart).WaitForCompletion();
 
         OnHandDestroyed();
         Destroy(gameObject);

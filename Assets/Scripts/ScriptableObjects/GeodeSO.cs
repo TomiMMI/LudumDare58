@@ -31,13 +31,13 @@ public class GeodeInfos
         {
             return false;
         }
-
-        return guid.Equals(guid);
+        GeodeInfos go = (GeodeInfos)obj;
+        return go.guid.Equals(guid);
     }
 
     // override object.GetHashCode
     public override int GetHashCode()
-    {
+    { 
         return guid.GetHashCode();
     }
 
