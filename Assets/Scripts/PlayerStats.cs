@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,13 +14,43 @@ public class PlayerStats : MonoBehaviour
     //Add gemInfos in here 
     public List<GemInfos> GemsInInventory = new List<GemInfos>();
 
+
+    public List<GeodeInfos> Geodes = new List<GeodeInfos>();
+    public Dictionary<GeodeType, int> GeodeCounts = new()
+    {
+        { GeodeType.Pebble,0 },
+        { GeodeType.Mid,0 },
+        { GeodeType.Colorful,0 },
+        { GeodeType.Gigageode,0 },
+    };
     [SerializeField]
     private int hammerForce = 1;
 
     public int HammerForce => hammerForce;
 
+   
+
+    public void AddGeodeInfo(GeodeInfos geodeInfos)
+    {
+        Geodes.Add(geodeInfos);
+        CountGeodes();
+    }
+    public void CountGeodes()
+    {
+
+        for (int i = 0; i < GeodeCounts.Count; i++)
+        {
+            GeodeCounts[GeodeCounts.Keys.ToList()[i]] = 0;
+        }
+
+        foreach(GeodeInfos geode in Geodes)
+        {
+            GeodeCounts[geode.GemSO.GeodeType]++;
+        }
+    }
     void Awake()
     {
+        CountGeodes();
         PlayerStats.Instance = this;
     }
 }

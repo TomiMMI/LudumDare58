@@ -9,7 +9,7 @@ public class GemSO : ScriptableObject
     public Sprite gemSprite;
     public GemRarity gemRarity;
     public GemType gemType;
-    
+    public int gemValue;
 }
 
 public class GemInfos

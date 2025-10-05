@@ -109,7 +109,6 @@ public class DragDropController : MonoBehaviour
                 continue;
             }
             obj.linearVelocity = (moveDelta + ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)obj.transform.position)) * Time.deltaTime * dragSpeed;
-            Debug.Log(obj.linearVelocity);
         }
         this.mouseLastWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
@@ -137,7 +136,7 @@ public class DragDropController : MonoBehaviour
         RaycastHit2D[] hitInfo = Physics2D.GetRayIntersectionAll(temp, Mathf.Infinity);
         foreach(RaycastHit2D hit in hitInfo)
         {
-            if (hit.transform != null && hit.transform.GetComponent<Rigidbody2D>() is Rigidbody2D rb && rb != null)
+            if (hit.transform != null && hit.transform.GetComponent<Gem>() is Gem gem && gem != null &&  hit.transform.GetComponent<Rigidbody2D>() is Rigidbody2D rb && rb != null)
             {
                 return rb;
             }

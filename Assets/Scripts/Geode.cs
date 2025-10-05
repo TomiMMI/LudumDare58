@@ -16,15 +16,24 @@ public class Geode : MonoBehaviour
     [SerializeField]
     private List<Sprite> geodeSprites;
 
+    private SpriteRenderer m_spriteRenderer;
     private int[] hardnessThresholds;
      private Color[] colors = new Color[] { Color.magenta, Color.yellow, Color.red };
     private int hardnessState = 0;
-    void Start()
+    public GeodeInfos GeodeInfos;
+    void Awake()
     {
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
         hardnessThresholds = new int[] { (int)hardness / 3 * 2, (int)hardness / 3, 0 };
             //this.GetComponent<SpriteRenderer>().sprite = geodeSprites[0];
     }
 
+    public void InitializeGeode(GeodeInfos geodeInfos)
+    {
+        this.GeodeInfos = geodeInfos;
+        geodeType = geodeInfos.GemSO.GeodeType;
+        m_spriteRenderer.sprite = geodeInfos.GemSO.GeodeSprite;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -51,16 +60,18 @@ public class Geode : MonoBehaviour
             this.GetComponent<Collider2D>().enabled = false;
             //TO DO : Spawn Gem
             GemSO GemSO = GeodesAndGemsUtilities.Instance.GetGemFromGeode(geodeType);
+            UIHandling.Instance.CreateAndAddGemToBag(transform, GemSO);
             this.StartCoroutine(WaitAndDestroy());
             return;
         }
         if (hardness <= hardnessThresholds[hardnessState])
         {
             hardnessState++;
-            this.GetComponent<SpriteRenderer>().color = colors[hardnessState];
+            //m_spriteRenderer.color = colors[hardnessState];
             this.transform.DOShakePosition(0.1f, transform.right * 0.3f, 1 * hardnessState);
         }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

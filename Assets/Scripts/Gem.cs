@@ -5,14 +5,19 @@ public class Gem : MonoBehaviour
 {
     public event Action OnGemDestroyed = delegate { };
     public GemInfos gemInfos;
+    public GemSO defaultGemSO;
 
     public SpriteRenderer SpriteRenderer;
     private Rigidbody2D m_Rigidbody;
-
-    private void Start()
+    private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
+    }
+    private void Start()
+    {
         m_Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+        gemInfos = new GemInfos(defaultGemSO);
+        InitializeGem(gemInfos);
     }
     public void InitializeGem(GemInfos gemInfos)
     {
@@ -28,7 +33,15 @@ public class Gem : MonoBehaviour
             SpriteRenderer.sortingOrder = 9;
         }
     }
+    public void Disable()
+    {
+        m_Rigidbody.simulated = false;
+    }
 
+    public void Enable()
+    {
+        m_Rigidbody.simulated = true;
+    }
     private void OnDestroy()
     {
         OnGemDestroyed();

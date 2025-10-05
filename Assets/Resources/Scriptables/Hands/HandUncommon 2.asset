@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a1d925b159e994ab6477164651c6f4, type: 3}
+  m_Name: HandUncommon 2
+  m_EditorClassIdentifier: 
+  Name: 
+  SpriteClosed: {fileID: 3951452398196901500, guid: d3a511b899f1ecd4d8e80b3ffb46ed59, type: 3}
+  SpriteOpened: {fileID: 3323631350768518254, guid: 2dbb43231f8983048a7ac8dd9eb4ecc6, type: 3}
+  wantedGems:
+  - {fileID: 11400000, guid: 0fccbda97d127834892f160613506c34, type: 2}
+  - {fileID: 11400000, guid: 9996a6bf7821bad46a6003590239e102, type: 2}
+  richesMultiplier: 2
+  handRarity: 1

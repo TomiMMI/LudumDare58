@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,6 +16,15 @@ public class GeodesAndGemsUtilities : MonoBehaviour
         {new GemRequest(GemRarity.Epic),10},
         {new GemRequest(GemRarity.Legendary),1}
     };
+    
+        //TO IMPROVE
+    [SerializeField]
+    private Dictionary<GemRequest, int> midLootTable = new Dictionary<GemRequest, int>
+    {
+        {new GemRequest(GemRarity.Epic),939 },
+        {new GemRequest(GemRarity.Colorful,GemType.Triangle),50},
+    };
+
 
     private Dictionary<GemRequest, int> colorfulLootTable = new Dictionary<GemRequest, int>
     {
@@ -39,6 +49,10 @@ public class GeodesAndGemsUtilities : MonoBehaviour
     void Awake()
     {
         GeodesAndGemsUtilities.Instance = this;
+    }
+    private void Start()
+    {
+        gemList = Resources.LoadAll<GemSO>("Scriptables/Gems").ToList();
     }
 
     public GemSO GetGemFromGeode(GeodeType geodeType)
@@ -82,6 +96,8 @@ public class GeodesAndGemsUtilities : MonoBehaviour
 
             case GeodeType.Gigageode:
                 return GetGemRequest(gigageodeLootTable);
+            case GeodeType.Mid:
+                return GetGemRequest(midLootTable);
         }
         return null;
     }
@@ -135,6 +151,7 @@ public enum GemType
 public enum GeodeType
 {
     Pebble,
+    Mid,
     Colorful,
     Gigageode
 }

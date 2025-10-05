@@ -44,5 +44,8 @@ TagManager:
   - name: Hands
     uniqueID: 383106083
     locked: 0
+  - name: Cursor
+    uniqueID: 2211235809
+    locked: 0
   m_RenderingLayers:
   - Default

@@ -5,9 +5,17 @@ using UnityEngine.UI;
 
 public class UIHandling : MonoBehaviour
 {
+    public static UIHandling Instance { get; private set; }
+
+    void Awake()
+    {
+        UIHandling.Instance = this;
+    }
+
     public Transform TransformScreen2;
     public Transform TransformScreen1;
 
+    public Transform GemBagTransform;
     public Camera Cam;
     public float CameraMoveDuration;
 
@@ -16,6 +24,7 @@ public class UIHandling : MonoBehaviour
     private GemInventory m_InventoryParent;
 
     public GemSO debug_GemSO;
+    public Gem GemPrefab;
 
     private void Start()
     {
@@ -40,19 +49,19 @@ public class UIHandling : MonoBehaviour
         //MOVE TO SCREEN TWO
         Cam.transform.DOMove( new Vector3(TransformScreen2.position.x, TransformScreen2.position.y,Cam.transform.position.z), CameraMoveDuration).SetEase(Ease.OutQuart);
         //TODO : add checks to remove the current gem from the player drag
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
-        _DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
+        //_DebugAddGem();
         UpdatePlayerInventory();
     }
 
@@ -82,5 +91,30 @@ public class UIHandling : MonoBehaviour
 
         }
     }
+    public void CreateAndAddGemToBag(Transform GeodeTranform, GemSO gemSO)
+    {
+        GemInfos gemInfos = new GemInfos(gemSO);
+        player.GemsInInventory.Add(gemInfos);
+         
+        Gem gem = GameObject.Instantiate(GemPrefab);
+        gem.InitializeGem(gemInfos);
+        gem.transform.position = GeodeTranform.position;
+        Sequence s = DOTween.Sequence();
+        s.Append(gem.transform.DOMoveY(gem.transform.position.y +2f, 0.5f));
+        s.AppendInterval(0.5f);
+        Tween moveTween = gem.transform.DOMove(GemBagTransform.position +new Vector3 (0,1f,0), 0.5f);
+        moveTween.onComplete += () =>
+        {
+            Destroy(gem.gameObject);
+        };
+        gem.Disable();
+        s.Append(moveTween);
+        s.Append(GemBagTransform.DOScale(1.15f, 0.4f).SetEase(Ease.OutBack));
+        s.Append(GemBagTransform.DOScale(1, 0.2f).SetEase(Ease.OutBack));
+
+
+        UpdatePlayerInventory();
+    }
+
 
 }

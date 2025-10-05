@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum GDirection
@@ -64,12 +65,24 @@ public class SpawnLoop : MonoBehaviour
     public float m_MinHandSpawnSpeed = 0.2f;
     //This handles the hands spawn rate. Low at first, then ramps up to be very fast !
     public AnimationCurve m_SpawnCurve;
-    
-    
+
+    public List<HandsSO> hands;
+    public List<float> handWeights;
+    public float maxRarity;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
+        float sum = 0;
+        hands = Resources.LoadAll<HandsSO>("Scriptables/Hands").ToList();
+        handWeights = new List<float>();
+        maxRarity = 0;
+        foreach(HandsSO hand in hands)
+        {
+            maxRarity += hand.handRarity;
+            handWeights.Add(maxRarity);
+        }
+        Debug.Log("MAX RARITY IS " + maxRarity);
         MakePointList();
         StartCoroutine(corSpawnPiecesDebug());
         StartDay();
@@ -174,7 +187,24 @@ public class SpawnLoop : MonoBehaviour
             hand.transform.localPosition -= hand.transform.up * HandSize;
             hand.transform.localScale = Vector3.one;
             float speed = UnityEngine.Random.Range(0.2f, 1);
-            hand.Initialize(point);
+
+            //CHOOSE THE HAND SCRIPTABLE OBJECT
+            float randomRarity = UnityEngine.Random.Range(0, maxRarity);
+            HandsSO handsSO = null;
+            for(int j = 0; j < hands.Count -1; j++)
+            {
+                if (handWeights[j]<=  randomRarity && handWeights[j+1] >= randomRarity)
+                {
+                    handsSO = hands[j];
+                    break;
+                }
+            }
+            if(handsSO == null)
+            {
+                Debug.LogError("COULDN'T FIND A VALID HAND YOUR RANDOM IS FUCKED UP");
+                handsSO = hands[0];
+            }
+            hand.Initialize(point, handsSO );
             currentHands++;
 
             Action func = null;
