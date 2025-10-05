@@ -19,7 +19,7 @@ public class DragDropController : MonoBehaviour
     private float dragSpeed = 100f;
 
     [SerializeField]
-    private List<Rigidbody2D> selectedObjects;
+    private Rigidbody2D selectedObject;
 
     private Vector2 mouseLastWorldPosition;
     private float mouseDownTime;
@@ -29,7 +29,6 @@ public class DragDropController : MonoBehaviour
     void Start()
     {
         DragDropController.Instance = this;
-        selectedObjects = new List<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -43,42 +42,13 @@ public class DragDropController : MonoBehaviour
                     Rigidbody2D temp = this.GetGemAtMousePosition();
                     if (temp != null)
                     {
-                        if (this.selectedObjects.Contains(temp))
-                        {
-                            this.currentState = DragState.Selecting;
-                        }
-                        else
-                        {
-                            this.UpdateSelectionList(temp);
-                        }
+                        selectedObject = temp;
+                        this.currentState = DragState.Dragging;
+                        mouseLastWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        selectedObject.gameObject.layer = LayerMask.NameToLayer("Selected Gems");
+                        selectedObject.transform.DOScale(1.1f, 0.2f);
 
                     }
-                }
-                break;
-            case DragState.Selecting:
-                mouseDownTime += Time.deltaTime;
-                if (Input.GetMouseButtonUp(0))
-                {
-                    this.UpdateSelectionList(GetGemAtMousePosition());
-                    mouseDownTime = 0;
-                    this.currentState = DragState.None;
-                }
-                else if (mouseDownTime >= timeToDrag)
-                {
-                    mouseDownTime = 0;
-                    mouseLastWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-                    foreach (Rigidbody2D obj in selectedObjects)
-                    {
-                        if (obj == null)
-                        {
-                            selectedObjects.Remove(obj);
-                        }
-                        obj.gameObject.layer = LayerMask.NameToLayer("Selected Gems");
-
-                        obj.bodyType = RigidbodyType2D.Dynamic;
-                    }
-                    this.currentState = DragState.Dragging;
                 }
                 break;
             case DragState.Dragging:
@@ -98,33 +68,9 @@ public class DragDropController : MonoBehaviour
     private void Drag()
     {
         Vector2 moveDelta = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - mouseLastWorldPosition;
-        foreach (Rigidbody2D obj in selectedObjects.ToList())
-        {
-            if (obj == null)
-            {
-                selectedObjects.Remove(obj);
-                continue;
-            }
-            obj.linearVelocity = (moveDelta + ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)obj.transform.position)) * Time.deltaTime * dragSpeed;
-        }
+
+            selectedObject.linearVelocity = (moveDelta + ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)selectedObject.transform.position)) * Time.deltaTime * dragSpeed;
         this.mouseLastWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    }
-
-
-    private bool UpdateSelectionList(Rigidbody2D newSelection)
-    {
-        if (selectedObjects.Contains(newSelection))
-        {
-            newSelection.transform.DOScale(1, 0.2f);
-            selectedObjects.Remove(newSelection);
-            return false;
-        }
-        else
-        {
-            newSelection.transform.DOScale(1.1f, 0.2f);
-            selectedObjects.Add(newSelection);
-            return true;
-        }
     }
 
     private Rigidbody2D GetGemAtMousePosition()
@@ -144,13 +90,11 @@ public class DragDropController : MonoBehaviour
 
     private void StopDragging()
     {
-        foreach (Rigidbody2D rb in selectedObjects)
-        {
-            rb.transform.DOScale(1, 0.2f);
-            rb.linearVelocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-            rb.gameObject.layer = LayerMask.NameToLayer("Default");
-        }
-        this.selectedObjects.Clear();
+
+        selectedObject.transform.DOScale(1, 0.2f);
+        selectedObject.linearVelocity = Vector2.zero;
+        selectedObject.angularVelocity = 0f;
+        selectedObject.gameObject.layer = LayerMask.NameToLayer("Default");
+        selectedObject = null;
     }
 }
