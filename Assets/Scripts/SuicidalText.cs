@@ -32,6 +32,14 @@ public class SuicidalText : MonoBehaviour
         this.lifetime = time;
 
     }
+    public void SetupText(String text, Vector2 movementVector, float time, Color color)
+    {
+        this.textMeshPro.text = text;
+        this.movementVector = movementVector;
+        this.lifetime = time;
+        this.textMeshPro.color = color;
+
+    }
     void Update()
     {
         timer += Time.deltaTime;

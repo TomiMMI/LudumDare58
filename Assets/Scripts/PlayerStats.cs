@@ -16,6 +16,9 @@ public class PlayerStats : MonoBehaviour
     [SerializeField]
     private GameObject suicididalTextPrefab;
 
+    [SerializeField]
+    private GameObject suicididalTextPrefabVariant;
+
     //Gems that are already in the inventory 
     public Dictionary<GemInfos, Gem> CurrentGems = new Dictionary<GemInfos, Gem>();
     //Add gemInfos in here 
@@ -98,18 +101,20 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void TryToAddToCollection(GemSO gemSO)
+    public bool TryToAddToCollection(GemSO gemSO)
     {
         if (!gemCollection.Contains(gemSO))
         {
             gemCollection.Add(gemSO);
             collection.RevealGem(gemSO.GemID);
             Debug.Log("New gem : " + gemSO.gemName);
+            return true;
             //Todo : Drag to collection UI
         }
         else
         {
             Debug.Log("Gem already existing : " + gemSO.gemName);
+            return false;
             //Todo : Drag to left of the screen
         }
     }
@@ -125,6 +130,18 @@ public class PlayerStats : MonoBehaviour
     {
         Instantiate(suicididalTextPrefab, position, suicididalTextPrefab.transform.rotation).GetComponent<SuicidalText>().SetupText(text, movementVector, time);
     }
+    public void SpawnSuicidalTextAtLocation(Vector3 position, String text, Vector2 movementVector, float time,Color color)
+    {
+        Instantiate(suicididalTextPrefab, position, suicididalTextPrefab.transform.rotation).GetComponent<SuicidalText>().SetupText(text, movementVector, time, color);
+    }
+        public void SpawnSuicidalTextAtLocation(Vector3 position, String text, Vector2 movementVector, float time,Color color, bool temp)
+    {
+        Instantiate(suicididalTextPrefabVariant, position, suicididalTextPrefab.transform.rotation).GetComponent<SuicidalText>().SetupText(text, movementVector, time, color);
+    }
+        public void SpawnSuicidalTextAtLocation(Vector3 position, String text, Vector2 movementVector, float time, bool temp)
+    {
+        Instantiate(suicididalTextPrefabVariant, position, suicididalTextPrefab.transform.rotation).GetComponent<SuicidalText>().SetupText(text, movementVector, time);
+    }
 
     void Awake()
     {
@@ -134,9 +151,5 @@ public class PlayerStats : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SpawnSuicidalTextAtLocation((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition), "Test", new Vector2(0,0.5f),new Vector2(0.05f,0.05f), 1f);
-        }
     }
 }

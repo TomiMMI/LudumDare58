@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Geode : MonoBehaviour
@@ -58,8 +59,14 @@ public class Geode : MonoBehaviour
             this.GetComponent<Collider2D>().enabled = false;
             //TO DO : Spawn Gem
             GemSO GemSO = GeodesAndGemsUtilities.Instance.GetGemFromGeode(geodeType);
-            PlayerStats.Instance.TryToAddToCollection(GemSO);
+            if (PlayerStats.Instance.TryToAddToCollection(GemSO))
+            {
+                StartCoroutine("NewGemText");
+            }
+            ;
             UIHandling.Instance.CreateAndAddGemToBag(transform, GemSO);
+            PlayerStats.Instance.SpawnSuicidalTextAtLocation((Vector2)this.transform.position + new Vector2(0,0.6f), GemSO.gemName, new Vector2(0,0.5f), 2f,GeodesAndGemsUtilities.Instance.RarityColor(GemSO.gemRarity),false);
+            PlayerStats.Instance.SpawnSuicidalTextAtLocation((Vector2)this.transform.position + new Vector2(0,0.25f), GemSO.gemRarity.ToString(), new Vector2(0,0.5f), 2f,GeodesAndGemsUtilities.Instance.RarityColor(GemSO.gemRarity),false);
             this.StartCoroutine(WaitAndDestroy());
             return;
         }
@@ -98,6 +105,12 @@ public class Geode : MonoBehaviour
         OnGeodeDestroyed();
         yield return new WaitForSeconds(1f);
         Destroy(this.gameObject);
+    }
+
+    private IEnumerator NewGemText()
+    {
+        yield return new WaitForSeconds(0.5f);
+        PlayerStats.Instance.SpawnSuicidalTextAtLocation((Vector2)this.transform.position, "New gem !!", new Vector2(0, 0.5f), 2f, Color.red,false);
     }
 
 }
