@@ -68,11 +68,12 @@ public class GeodesAndGemsUtilities : MonoBehaviour
         }
         if (gemRequest.type != null)
         {
+            List<GemSO> temp2 = new List<GemSO>();
             foreach (GemSO gem in temp.ToList())
             {
-                if (gem.gemType != gemRequest.type)
+                if (gem.gemType == gemRequest.type)
                 {
-                    temp.Add(gem);
+                    temp2.Add(gem);
                 }
             }
         }
