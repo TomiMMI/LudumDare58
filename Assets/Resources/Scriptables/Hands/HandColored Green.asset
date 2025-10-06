@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7a1d925b159e994ab6477164651c6f4, type: 3}
-  m_Name: HandPoor2
+  m_Name: HandColored Green
   m_EditorClassIdentifier: 
   Name: 
-  SpriteClosed: {fileID: -2290384640426573464, guid: a48f2d0c46cf55c4d955114e0a96c9f5, type: 3}
-  SpriteOpened: {fileID: -3976930273782551165, guid: 4114576785cbb4940bd6a2714a7347d9, type: 3}
+  SpriteClosed: {fileID: 7497809029346002739, guid: c44122c490834784bbbeff98402fbbd8, type: 3}
+  SpriteOpened: {fileID: -7914003467888877298, guid: d46a162fa12f8d2458982a4c863507b6, type: 3}
   wantedGems:
   - {fileID: 11400000, guid: 45763b211877f9d438ae0616a10e2ad6, type: 2}
   - {fileID: 11400000, guid: 8ecb0ee30e5b50b498ac349a402418ad, type: 2}
   DroppedGeode: {fileID: 11400000, guid: d0485fca704c9544fbf60789bb1ea515, type: 2}
-  richesMultiplier: 1
-  handRarity: 2
+  richesMultiplier: 2
+  handRarity: 1

@@ -30,6 +30,10 @@ public class UIHandling : MonoBehaviour
 
     public TextMeshProUGUI MoneyText;
     public TextMeshProUGUI MoneyText2;
+
+    public Transform CoinLocation;
+
+    public CoinStack CoinPrefab;
     private void Start()
     {
         Cam = Camera.main;
@@ -129,8 +133,8 @@ public class UIHandling : MonoBehaviour
         int money = pastMoney;
         Tween t = DOTween.To(() => money, x => money = x, newMoney, 0.5f);
         t.onUpdate += () => {
-            MoneyText.text = "$$" + money.ToString();
-            MoneyText2.text = "$$" + money.ToString();
+            MoneyText.text = money.ToString();
+            MoneyText2.text = money.ToString();
         };
         pastMoney = newMoney;
     }
@@ -151,5 +155,11 @@ public class UIHandling : MonoBehaviour
     public void OnUpgradeGrinderButtonClick()
     {
 
+    }
+    public void SpawnCoinPrefabAtPosition(Vector3 position, int coinStackValue)
+    {
+        CoinStack CoinStack = GameObject.Instantiate<CoinStack>(CoinPrefab);
+        CoinStack.Initialize(coinStackValue);
+        CoinStack.transform.position = position;
     }
 }

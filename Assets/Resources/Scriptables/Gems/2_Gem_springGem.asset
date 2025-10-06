@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 094bbe6cb9f7aea44aa2c06646ddc05d, type: 3}
+  m_Name: 2_Gem_springGem
+  m_EditorClassIdentifier: 
+  GemID: 11
+  gemName: Abominable Rusty Springem
+  gemSprite: {fileID: -9079592977102886769, guid: 8183eddb10eb75546be9dc68c3e3bcba, type: 3}
+  gemRarity: 0
+  gemType: 0
+  gemValue: 1

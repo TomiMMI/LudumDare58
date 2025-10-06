@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7a1d925b159e994ab6477164651c6f4, type: 3}
-  m_Name: HandUncommon 2
+  m_Name: HandBad 2
   m_EditorClassIdentifier: 
   Name: 
   SpriteClosed: {fileID: 3951452398196901500, guid: d3a511b899f1ecd4d8e80b3ffb46ed59, type: 3}
   SpriteOpened: {fileID: 3323631350768518254, guid: 2dbb43231f8983048a7ac8dd9eb4ecc6, type: 3}
   wantedGems:
-  - {fileID: 11400000, guid: 0fccbda97d127834892f160613506c34, type: 2}
-  - {fileID: 11400000, guid: 9996a6bf7821bad46a6003590239e102, type: 2}
+  - {fileID: 11400000, guid: 375f1caaae344fb42ae17682dec1ed3f, type: 2}
+  - {fileID: 11400000, guid: 0cb081bde0e72f941ac0091464a7b32b, type: 2}
+  - {fileID: 11400000, guid: 904ef0abbe69e2e49980d1399ff93b35, type: 2}
+  - {fileID: 11400000, guid: fa4bae83ef5992c49a9c7456266455b0, type: 2}
+  - {fileID: 11400000, guid: b4326cc369469eb4da7a74de30923aaf, type: 2}
   DroppedGeode: {fileID: 11400000, guid: e60c236b67f84ea43bc4ff766d78eee0, type: 2}
-  richesMultiplier: 2
-  handRarity: 1
+  richesMultiplier: 1
+  handRarity: 2

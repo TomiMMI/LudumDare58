@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a1d925b159e994ab6477164651c6f4, type: 3}
+  m_Name: HandLegendary1
+  m_EditorClassIdentifier: 
+  Name: 
+  SpriteClosed: {fileID: -6989730764369591367, guid: b67dbe8f1baffed43b5b92b66722bf4c, type: 3}
+  SpriteOpened: {fileID: 507712078759647246, guid: 98f109f8b53689b4f8673f05fe41f6c9, type: 3}
+  wantedGems: []
+  DroppedGeode: {fileID: 11400000, guid: 13a9dd9a725402549a3cccdd581c11bb, type: 2}
+  richesMultiplier: 6
+  handRarity: 0.1

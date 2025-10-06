@@ -138,14 +138,13 @@ public class Main : MonoBehaviour
             PlayerStats.Instance.AddGeodeInfo(geodeInfos);
             Geode geode = GameObject.Instantiate<Geode>(GeodeSpawner.Instance.GeodePrefab, transform);
             geode.InitializeGeode(geodeInfos);
-            geode.transform.localScale *= geodeInfos.GeodeSizeMultiplier;
-
+            geode.transform.localScale *= 0.8f;
             ActiveGeode = geode;
         }
         else
         {
             Debug.Log("WE GOT " + riches + " $$$");
-            PlayerStats.Instance.AddMoney((int)riches);
+            UIHandling.Instance.SpawnCoinPrefabAtPosition(transform.position, (int)riches);
         }
 
     }
@@ -173,7 +172,6 @@ public class Main : MonoBehaviour
     }
     public IEnumerator DestroyHand()
     {
-        SpawnLoot();
         yield return new WaitForSeconds(0.5f);
         foreach (Gem gem in GrabbedGems)
         {
@@ -181,8 +179,10 @@ public class Main : MonoBehaviour
         }
 
         yield return transform.DOLocalMove(m_destination, 0.2f).SetEase(Ease.OutQuart).WaitForCompletion();
+        SpawnLoot();
         if (ActiveGeode != null)
         {
+            
             ActiveGeode.transform.parent = null;
             //MOVE THE GEODE
 
