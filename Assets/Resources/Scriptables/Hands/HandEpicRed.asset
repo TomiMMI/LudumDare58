@@ -16,9 +16,7 @@ MonoBehaviour:
   SpriteClosed: {fileID: 451869658204320246, guid: e0a86eb99025d754a819ab159cf27beb, type: 3}
   SpriteOpened: {fileID: 5022163452505619951, guid: 593138ebe71da334a906215c2844592a, type: 3}
   wantedGems:
-  - {fileID: 11400000, guid: 45763b211877f9d438ae0616a10e2ad6, type: 2}
-  - {fileID: 11400000, guid: 1264ed67273467f4998d30a9c1ee77bf, type: 2}
-  - {fileID: 11400000, guid: 1334bc34eb1b32d44819c1bfde53052e, type: 2}
+  - {fileID: 11400000, guid: 7b4a158bfe8fd5a47baabc883c7a85ff, type: 2}
   DroppedGeode: {fileID: 11400000, guid: 13a9dd9a725402549a3cccdd581c11bb, type: 2}
   richesMultiplier: 3
   handRarity: 0.5
