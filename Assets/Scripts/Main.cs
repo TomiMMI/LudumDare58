@@ -137,8 +137,10 @@ public class Main : MonoBehaviour
 
             PlayerStats.Instance.AddGeodeInfo(geodeInfos);
             Geode geode = GameObject.Instantiate<Geode>(GeodeSpawner.Instance.GeodePrefab, transform);
+            geode.GetComponent<Collider2D>().enabled = false;
             geode.InitializeGeode(geodeInfos);
-            geode.transform.localScale *= 0.8f;
+            geode.transform.localScale = Vector3.one * 0.5f;
+            geode.transform.DOScale(0.8f,0.1f);
             ActiveGeode = geode;
         }
         else
@@ -186,7 +188,8 @@ public class Main : MonoBehaviour
             ActiveGeode.transform.parent = null;
             //MOVE THE GEODE
 
-            ActiveGeode.transform.DOMove(GeodeSpawner.Instance.transform.position, 1).SetDelay(1).onComplete += () => { Destroy(ActiveGeode.gameObject); };
+            ActiveGeode.transform.DOMove(GeodeSpawner.Instance.geodeTypesTab.First(x => x.Value == ActiveGeode.GeodeInfos.GemSO.GeodeType).Key.transform.position, 1).SetDelay(1).onComplete += () => { Destroy(ActiveGeode.gameObject); };
+            ActiveGeode.transform.DOScale(0.1f, 1).SetDelay(1);
         }
         m_isActive = true;
         yield return transform.DOMove(m_startingPosition, 0.2f).SetEase(Ease.InQuart).WaitForCompletion();

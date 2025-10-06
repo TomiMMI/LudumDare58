@@ -9,32 +9,32 @@ public class GeodesAndGemsUtilities : MonoBehaviour
     [SerializeField]
     private Dictionary<GemRequest, int> pebbleLootTable = new Dictionary<GemRequest, int>
     {
-        {new GemRequest(GemRarity.Shit),950 },
-        {new GemRequest(GemRarity.Colorful),50},
+        {new GemRequest(GemRarity.Shit),850 },
+        {new GemRequest(GemRarity.Colorful),150},
     };
 
     //TO IMPROVE
     [SerializeField]
     private Dictionary<GemRequest, int> midLootTable = new Dictionary<GemRequest, int>
     {
-        {new GemRequest(GemRarity.Shit),600 },
-        {new GemRequest(GemRarity.Colorful),400},
+        {new GemRequest(GemRarity.Shit),300 },
+        {new GemRequest(GemRarity.Colorful),700},
     };
 
 
     private Dictionary<GemRequest, int> colorfulLootTable = new Dictionary<GemRequest, int>
     {
-        {new GemRequest(GemRarity.Epic,GemType.Triangle),400 },
-        {new GemRequest(GemRarity.Colorful,GemType.Square),590},
-        {new GemRequest(GemRarity.Legendary),10}
+        {new GemRequest(GemRarity.Epic),480 },
+        {new GemRequest(GemRarity.Colorful),490},
+        {new GemRequest(GemRarity.Legendary),30}
     };
 
     private Dictionary<GemRequest, int> gigageodeLootTable = new Dictionary<GemRequest, int>
     {
-        {new GemRequest(GemRarity.Epic),430 },
-        {new GemRequest(GemRarity.Legendary),340},
+        {new GemRequest(GemRarity.Epic),330 },
+        {new GemRequest(GemRarity.Legendary),440},
         {new GemRequest(GemRarity.Colorful),130},
-        {new GemRequest(GemRarity.Shit),100}
+        {new GemRequest(GemRarity.Shit),50}
     };
 
     [SerializeField]
@@ -46,7 +46,7 @@ public class GeodesAndGemsUtilities : MonoBehaviour
     void Awake()
     {
         GeodesAndGemsUtilities.Instance = this;
-        gemList = Resources.LoadAll<GemSO>("Scriptables/Gems").ToList();
+        gemList = Resources.LoadAll<GemSO>("Scriptables/Gems").ToList().OrderBy(x => x.name).ToList();
 
     }
 

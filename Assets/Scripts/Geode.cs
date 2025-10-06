@@ -21,6 +21,8 @@ public class Geode : MonoBehaviour
     private Color[] colors = new Color[] { Color.magenta, Color.yellow, Color.red };
     private int hardnessState = 0;
     public GeodeInfos GeodeInfos;
+    public AudioSource audioSource;
+    public AudioClip breakClip;
     void Awake()
     {
         m_spriteRenderer = GetComponent<SpriteRenderer>();
@@ -46,6 +48,8 @@ public class Geode : MonoBehaviour
         //this.transform.DOShakePosition(0.1f,transform.right*0.3f);
         hardness -= PlayerStats.Instance.HammerForce;
         this.transform.DOShakePosition(0.05f, transform.right * 0.1f, 1);
+        audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+        audioSource.PlayOneShot(audioSource.clip);
         PlayerCursor.Instance.HitWithHammer();
         GeodeUpdate();
     }
@@ -101,6 +105,7 @@ public class Geode : MonoBehaviour
     private IEnumerator WaitAndDestroy()
     {
 
+        audioSource.PlayOneShot(breakClip);
         PlayerStats.Instance.RemoveGeodeInfo(GeodeInfos);
         OnGeodeDestroyed();
         yield return new WaitForSeconds(1f);

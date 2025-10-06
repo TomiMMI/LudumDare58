@@ -185,9 +185,9 @@ public class SpawnLoop : MonoBehaviour
     }
     public void SpawnHand()
     {
-
+        List<Vector3> points = m_HandPositions.Except(m_HandPositionsTaken).ToList();
         //Vector3 point = randomPointInTable(m_TableSpriteRenderer.bounds, TableMargin);
-        Vector3 point = m_HandPositions.Except(m_HandPositionsTaken).FirstOrDefault();
+        Vector3 point = points[UnityEngine.Random.Range(0,points.Count -1)];
         //Get a point in the sprite;
         Main hand = GameObject.Instantiate(HandPrefab, m_HandsTransform).GetComponent<Main>();
         if (point.y > 0)

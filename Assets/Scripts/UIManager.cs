@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class UIHandling : MonoBehaviour
@@ -39,8 +40,15 @@ public class UIHandling : MonoBehaviour
     public Collection collection;
     public bool isLeft = false;
     public bool WentLeftOnce = false;
+
+    public AudioSource audioSourcePeople;
+    public AudioSource audioSourceMusic;
+    public AudioSource audioSourceHitSound;
+    public SpawnLoop spawnLoop;
+    public float isLeftMusicBoost;
     private void Start()
     {
+        spawnLoop = GetComponent<SpawnLoop>();
         Cam = Camera.main;
         player = PlayerStats.Instance;
         player.OnInventoryUpdated += UpdatePlayerInventory;
@@ -77,7 +85,10 @@ public class UIHandling : MonoBehaviour
             HammerTween.Kill();
             HammerTween = null;
         }
-        
+
+        audioSourceMusic.pitch = Mathf.Lerp(0.9f, 1.2f, spawnLoop.m_SpawnCurve.Evaluate(spawnLoop.GetLerpedTime()));
+        isLeftMusicBoost = isLeft ? 0.2f : 0f;
+        audioSourcePeople.volume = Mathf.Lerp(0.1f+ isLeftMusicBoost, 0.3f+ isLeftMusicBoost, spawnLoop.m_SpawnCurve.Evaluate(spawnLoop.GetLerpedTime()));
     }
     public void  UpdateHammerText()
     {
@@ -108,6 +119,8 @@ public class UIHandling : MonoBehaviour
 
     public IEnumerator tutorialLoop()
     {
+        float timeElapsed = 0;
+        float maxTimeElapsed = 30;
         while (true)
         {
             yield return new WaitForSeconds(4);
@@ -116,7 +129,7 @@ public class UIHandling : MonoBehaviour
             {
                 Tutoriel.Instance.TutoBreakGeodes();
             }
-            if (player.GemsInInventory.Count != 0 && player.money == 0)
+            if (player.GemsInInventory.Count >= 2 && player.money == 0)
             {
                 Tutoriel.Instance.TutoSellGems();
             }
@@ -124,7 +137,7 @@ public class UIHandling : MonoBehaviour
             {
                 Tutoriel.Instance.TutoCollectGems();
             }
-            if (WentLeftOnce == false && isLeft)
+            if (WentLeftOnce == false && isLeft || (isLeft && timeElapsed > maxTimeElapsed))
             {
                 WentLeftOnce = true;
                 Tutoriel.Instance.TutoGiveGems();

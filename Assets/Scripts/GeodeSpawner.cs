@@ -90,7 +90,10 @@ public class GeodeSpawner : MonoBehaviour
     public void SwapTab(Toggle tg)
     {
         ActiveTab = tg;
-        BuyGemButtonText.text = ($"BUY 1 GEODE : {5} $$");
+
+        this.buyCost =GetGeodeSO(geodeTypesTab[ActiveTab]).cost;
+        UIHandling.Instance.ChangeGeodePriceText(buyCost);
+
         SpawnGeode();
         //PUT THAT AT A CORRECT PLACE
         UpdateTabInventory();
@@ -146,8 +149,6 @@ public class GeodeSpawner : MonoBehaviour
         }
         ActiveGeode = GameObject.Instantiate<Geode>(GeodePrefab, GeodeBaseTransform);
         ActiveGeode.InitializeGeode(geodeInfos);
-        this.buyCost = geodeInfos.GemSO.cost;
-        UIHandling.Instance.ChangeGeodePriceText(buyCost);
 
         Action func = null;
         func = () =>

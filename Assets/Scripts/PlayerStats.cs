@@ -146,6 +146,10 @@ public class PlayerStats : MonoBehaviour
     void Awake()
     {
         AddGeodeInfo(new GeodeInfos(basicGeodeSO));
+        AddGeodeInfo(new GeodeInfos(basicGeodeSO));
+        AddGeodeInfo(new GeodeInfos(basicGeodeSO));
+        AddGeodeInfo(new GeodeInfos(basicGeodeSO));
+        AddGeodeInfo(new GeodeInfos(basicGeodeSO));
         CountGeodes();
         PlayerStats.Instance = this;
     }

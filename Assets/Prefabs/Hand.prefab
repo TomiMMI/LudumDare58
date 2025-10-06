@@ -178,13 +178,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_spriteRenderer: {fileID: 1543496654683325301}
   m_maxShakeStrength: 1
-  m_grabTimer: 2
+  m_grabTimer: 1
   m_waitBeforeLeaving: 1
   m_minTimeHand: 0.2
   m_maxTimeHand: 1.5
   m_grabRadius: 1
   HandsSO: {fileID: 0}
   GrabbedGems: []
+  ActiveGeode: {fileID: 0}
 --- !u!1 &5377974978759822475
 GameObject:
   m_ObjectHideFlags: 0

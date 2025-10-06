@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GeodeSprite: {fileID: 7163496656704458842, guid: afee44c327472af47a4f684dbd781a5a, type: 3}
   GeodeType: 3
-  cost: 50
+  cost: 30
