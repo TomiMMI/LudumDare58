@@ -52,7 +52,7 @@ public class ClockCanvas : MonoBehaviour
     {
         m_Clockimage.transform.DORotate(new Vector3(0,0, m_StartClockZRotation+ 365*5), 3, RotateMode.FastBeyond360);
 
-        Camera.main.DOShakePosition(3,0.1f, 50);
+        Camera.main.DOShakePosition(3,0.05f, 25);
         yield return new WaitForSeconds(3);
         clockText.text = "DAY " + currentDay;
         currentDay++;

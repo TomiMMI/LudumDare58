@@ -47,8 +47,8 @@ public class GeodeSpawner : MonoBehaviour
     public TextMeshProUGUI BuyGemButtonText;
 
     private int buyCost;
-
-
+    
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
