@@ -3,7 +3,6 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public class UIHandling : MonoBehaviour
 {
@@ -40,7 +39,10 @@ public class UIHandling : MonoBehaviour
         player = PlayerStats.Instance;
         player.OnInventoryUpdated += UpdatePlayerInventory;
         UpdatePlayerInventory();
+        UpdateHammerText();
     }
+
+    Tween HammerTween;
 
     private void Update()
     {
@@ -52,8 +54,29 @@ public class UIHandling : MonoBehaviour
         {
             _OnRightScreenLeftArrowPressed(null);
         }
+        if (player.money >= hammerUpgradeCost)
+        {
+            if (HammerTween == null)
+            {
+                HammerTween = HammerButtonTransform.DOPunchScale(Vector3.one * 0.1f, 2, 1).SetLoops(-1);
+            }
+            else if (!HammerTween.IsPlaying()) 
+            {
+                HammerTween.Play();
+            }
+        }
+        else if (HammerTween != null)
+        {
+            HammerTween.Complete();
+            HammerTween = null;
+        }
+        
     }
+    public void  UpdateHammerText()
+    {
+        HammerText.text = $"UPGRADE HAMMER : {hammerUpgradeCost} $$";
 
+    }
     public void _OnLeftScreenRightArrowPressed(Button button)
     {
         //MOVE TO SCREEN TWO
@@ -140,15 +163,21 @@ public class UIHandling : MonoBehaviour
     }
 
     public int hammerUpgradeCost = 10;
-    public float hammerUpgradePowerScaling = 1.2f;
+    public float hammerUpgradePowerScaling = 1.1f;
+    public Transform HammerButtonTransform;
+    public TextMeshProUGUI HammerText;
     public void OnUpgradeHammerButtonClick()
     {
         if(player.money >= hammerUpgradeCost)
         {
+            print("BOUGHT UPGRADE");
+            PlayerStats.Instance.SpawnSuicidalTextAtLocation(HammerButtonTransform.position + new Vector3(0,1f,0), "STRONGER HAMMER!!!!", Vector2.up * 3f, Vector2.zero, 0.5f);
+            Camera.main.DOShakePosition(0.2f, 0.05f);
             player.RemoveMoney(hammerUpgradeCost);
             player.hammerForce += 10;
-
+            hammerUpgradeCost = (int)Mathf.Pow(hammerUpgradeCost,hammerUpgradePowerScaling);
         }
+        UpdateHammerText();
     }
 
 

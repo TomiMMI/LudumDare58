@@ -66,6 +66,7 @@ public class SpawnLoop : MonoBehaviour
 
     public List<HandsSO> hands;
     public List<float> handWeights;
+    public bool shouldReset = false;
     public float maxRarity;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -83,7 +84,7 @@ public class SpawnLoop : MonoBehaviour
         Debug.Log("MAX RARITY IS " + maxRarity);
         MakePointList();
         StartCoroutine(corSpawnPiecesDebug());
-        StartDay();
+        ResetDay();
     }
 
     // Update is called once per frame
@@ -114,11 +115,11 @@ public class SpawnLoop : MonoBehaviour
         }
 #endif
     }
-    public void StartDay()
+    public void ResetDay()
     {
-
+        m_timer = 0;
         m_lerpValue = 0;
-
+        shouldReset = false;
     }
 
     public void DayUpdate()
@@ -126,6 +127,10 @@ public class SpawnLoop : MonoBehaviour
         m_timer += Time.deltaTime;
         m_lerpValue = m_timer / GameDuration;
         CurrentTimeLerped = Mathf.Lerp(StartOfDay, EndOfDay, m_lerpValue);
+        if (m_lerpValue >= 1)
+        {
+            shouldReset = true;
+        }
     }
     public float GetLerpedTime()
     {

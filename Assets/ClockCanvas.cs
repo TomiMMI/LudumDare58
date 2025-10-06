@@ -1,3 +1,6 @@
+using DG.Tweening;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,16 +17,46 @@ public class ClockCanvas : MonoBehaviour
     [SerializeField]
     private float m_EndClockZRotation = -95;
 
+    bool isResetting = false;
+
+    int currentDay = 1;
+    public TextMeshProUGUI clockText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        StartCoroutine(ResetTime());
     }
 
     // Update is called once per frame
     void Update()
     {
-        float LerpAngle = Mathf.Lerp(m_StartClockZRotation, m_EndClockZRotation, spawnLoop.GetLerpedTime());
-        m_Clockimage.transform.localEulerAngles = new Vector3(m_Clockimage.transform.localEulerAngles.x, m_Clockimage.transform.localEulerAngles.y, LerpAngle);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isResetting = true;
+            StartCoroutine(ResetTime());
+        }
+
+        if(!isResetting && spawnLoop.shouldReset)
+        {
+            isResetting = true;
+            StartCoroutine(ResetTime());
+        }
+        else if(!isResetting)
+        {
+            float LerpAngle = Mathf.Lerp(m_StartClockZRotation, m_EndClockZRotation, spawnLoop.GetLerpedTime());
+            m_Clockimage.transform.localEulerAngles = new Vector3(m_Clockimage.transform.localEulerAngles.x, m_Clockimage.transform.localEulerAngles.y, LerpAngle);
+
+        }
+    }
+    public IEnumerator ResetTime()
+    {
+        m_Clockimage.transform.DORotate(new Vector3(0,0, m_StartClockZRotation+ 365*5), 3, RotateMode.FastBeyond360);
+
+        Camera.main.DOShakePosition(3,0.1f, 50);
+        yield return new WaitForSeconds(3);
+        clockText.text = "DAY " + currentDay;
+        currentDay++;
+        isResetting = false;
+        spawnLoop.ResetDay();
     }
 }

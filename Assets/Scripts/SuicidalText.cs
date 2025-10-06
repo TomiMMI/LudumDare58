@@ -3,6 +3,7 @@ using System;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using DG.Tweening;
 
 public class SuicidalText : MonoBehaviour
 {
@@ -37,7 +38,10 @@ public class SuicidalText : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= lifetime)
         {
-            Destroy(gameObject);
+            textMeshPro.DOFade(0, lifetime/2f).onComplete += () =>
+            {
+                Destroy(gameObject);
+            };
         }
         else
         {
