@@ -34,6 +34,8 @@ public class UIHandling : MonoBehaviour
     public Transform CoinLocation;
 
     public CoinStack CoinPrefab;
+
+    public TMP_Text GeodeSpawnerText;
     private void Start()
     {
         Cam = Camera.main;
@@ -132,7 +134,8 @@ public class UIHandling : MonoBehaviour
 
         int money = pastMoney;
         Tween t = DOTween.To(() => money, x => money = x, newMoney, 0.5f);
-        t.onUpdate += () => {
+        t.onUpdate += () =>
+        {
             MoneyText.text = money.ToString();
             MoneyText2.text = money.ToString();
         };
@@ -143,7 +146,7 @@ public class UIHandling : MonoBehaviour
     public float hammerUpgradePowerScaling = 1.2f;
     public void OnUpgradeHammerButtonClick()
     {
-        if(player.money >= hammerUpgradeCost)
+        if (player.money >= hammerUpgradeCost)
         {
             player.RemoveMoney(hammerUpgradeCost);
             player.hammerForce += 10;
@@ -161,5 +164,9 @@ public class UIHandling : MonoBehaviour
         CoinStack CoinStack = GameObject.Instantiate<CoinStack>(CoinPrefab);
         CoinStack.Initialize(coinStackValue);
         CoinStack.transform.position = position;
+    }
+    public void ChangeGeodePriceText(int newPrice)
+    {
+        GeodeSpawnerText.text = "BUY 1 GEODE :\n " + newPrice + " $$";
     }
 }

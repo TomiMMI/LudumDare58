@@ -46,6 +46,8 @@ public class GeodeSpawner : MonoBehaviour
 
     public TextMeshProUGUI BuyGemButtonText;
 
+    private int buyCost;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -144,6 +146,8 @@ public class GeodeSpawner : MonoBehaviour
         }
         ActiveGeode = GameObject.Instantiate<Geode>(GeodePrefab, GeodeBaseTransform);
         ActiveGeode.InitializeGeode(geodeInfos);
+        this.buyCost = geodeInfos.GemSO.cost;
+        UIHandling.Instance.ChangeGeodePriceText(buyCost);
 
         Action func = null;
         func = () =>
@@ -181,9 +185,11 @@ public class GeodeSpawner : MonoBehaviour
     }
     public void OnBuyGemButton()
     {
+        if (player.RemoveMoney(buyCost))
+        {
         player.AddGeodeInfo(new GeodeInfos(GetGeodeSO(geodeTypesTab[ActiveTab])));
-        player.RemoveMoney(5);
-        SpawnGeode();
+        SpawnGeode();  
+        }
         //REMOVE THE MONEY 
 
     }
