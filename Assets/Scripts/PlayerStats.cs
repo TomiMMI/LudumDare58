@@ -110,7 +110,6 @@ public class PlayerStats : MonoBehaviour
         else
         {
             Debug.Log("Gem already existing : " + gemSO.gemName);
-            GemsInInventory.Add(new GemInfos(gemSO));
             //Todo : Drag to left of the screen
         }
     }

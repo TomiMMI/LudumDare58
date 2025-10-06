@@ -52,7 +52,6 @@ public class Geode : MonoBehaviour
 
     private void GeodeUpdate()
     {
-        Debug.Log(hardness);
         if (hardness <= 0)
         {
             this.GetComponent<SpriteRenderer>().color = Color.red;
