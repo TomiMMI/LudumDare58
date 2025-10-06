@@ -20,3 +20,4 @@ MonoBehaviour:
   DroppedGeode: {fileID: 11400000, guid: e60c236b67f84ea43bc4ff766d78eee0, type: 2}
   richesMultiplier: 2
   handRarity: 0.9
+  aClip: {fileID: 8300000, guid: 2b4a44bb09539f1479ee229f4bf8f36d, type: 3}

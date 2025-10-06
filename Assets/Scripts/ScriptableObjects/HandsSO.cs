@@ -16,4 +16,5 @@ public class HandsSO : ScriptableObject
     public float richesMultiplier = 1;
 
     public float handRarity = 1;
+    public AudioClip aClip;
 }

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Main : MonoBehaviour
 {
@@ -32,6 +33,9 @@ public class Main : MonoBehaviour
     public HandsSO HandsSO;
     public List<Gem> GrabbedGems = new List<Gem>();
     public Geode ActiveGeode = null;
+
+    public AudioSource audioSource;
+    public AudioClip EatClip;
     void Start()
     {
     }
@@ -39,10 +43,12 @@ public class Main : MonoBehaviour
     {
         m_speed = UnityEngine.Random.Range(m_minTimeHand, m_maxTimeHand);
         m_destination = destination;
+
         TravelToPosition(m_destination);
         StartCoroutine(UpdateLoop());
         m_spriteRenderer.sprite = handsSO.SpriteOpened;
         this.HandsSO = handsSO;
+        audioSource.PlayOneShot(HandsSO.aClip);
 
     }
 
@@ -94,7 +100,7 @@ public class Main : MonoBehaviour
                 GrabbedGems.Add(gem);
             }
         }
-
+        audioSource.PlayOneShot(EatClip);
         //SCREEN SHAKE
         Camera.main.DOShakePosition(0.2f, 0.05f);
         m_spriteRenderer.transform.DOScale(Vector3.one * 1.15f, 0.2f);
@@ -142,6 +148,7 @@ public class Main : MonoBehaviour
             geode.transform.localScale = Vector3.one * 0.5f;
             geode.transform.DOScale(0.8f,0.1f);
             ActiveGeode = geode;
+
         }
         else
         {

@@ -169,14 +169,6 @@ public class PlayerStats : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            foreach (GemSO temp in GeodesAndGemsUtilities.Instance.GemList)
-            {
-                collection.RevealGem(temp.GemID);
-                gemCollection.Add(temp);
-            }
-            TryToAddToCollection(null);
-        }
+
     }
 }

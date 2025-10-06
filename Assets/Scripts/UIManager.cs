@@ -93,8 +93,8 @@ public class UIHandling : MonoBehaviour
         }
 
         audioSourceMusic.pitch = Mathf.Lerp(0.9f, 1.2f, spawnLoop.m_SpawnCurve.Evaluate(spawnLoop.GetLerpedTime()));
-        isLeftMusicBoost = isLeft ? 0.2f : 0f;
-        audioSourcePeople.volume = Mathf.Lerp(0.1f+ isLeftMusicBoost, 0.3f+ isLeftMusicBoost, spawnLoop.m_SpawnCurve.Evaluate(spawnLoop.GetLerpedTime()));
+        isLeftMusicBoost = isLeft ? 0.1f : 0f;
+        audioSourcePeople.volume = Mathf.Lerp(0.05f+ isLeftMusicBoost, 0.2f+ isLeftMusicBoost, spawnLoop.m_SpawnCurve.Evaluate(spawnLoop.GetLerpedTime()));
     }
     public void  UpdateHammerText()
     {
@@ -247,7 +247,9 @@ public class UIHandling : MonoBehaviour
     }
     public void OnEndButtonClick()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1;
     }
 
 

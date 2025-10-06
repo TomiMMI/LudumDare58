@@ -111,6 +111,7 @@ MonoBehaviour:
   - {fileID: 0}
   audioSource: {fileID: 7733204369417710987}
   breakClip: {fileID: 8300000, guid: 93f405b3c1a9e2f4ba0acc73e8587e83, type: 3}
+  isBeingDestroyed: 0
 --- !u!58 &1898193909828795270
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -237,7 +238,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.734
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
