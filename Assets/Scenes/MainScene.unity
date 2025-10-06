@@ -5432,7 +5432,7 @@ MonoBehaviour:
   suicididalTextPrefab: {fileID: 5217829865287835591, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
   suicididalTextPrefabVariant: {fileID: 4991877203784387598, guid: e34acee8c231a3a4491b5b6ac4b49a06, type: 3}
   DiscoveredGeodeTypes: 00000000
-  hammerForce: 10
+  hammerForce: 20
 --- !u!1 &944585598
 GameObject:
   m_ObjectHideFlags: 0

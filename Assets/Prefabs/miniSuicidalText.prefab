@@ -42,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6271154212053819701, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 3.0151
+      value: 6.8052
       objectReference: {fileID: 0}
     - target: {fileID: 6271154212053819701, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
       propertyPath: m_LocalScale.x
@@ -90,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6271154212053819701, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.5222
       objectReference: {fileID: 0}
     - target: {fileID: 6271154212053819701, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -108,9 +108,17 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8021292097517287526, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 14.742
+      objectReference: {fileID: 0}
+    - target: {fileID: 8021292097517287526, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.418
+      objectReference: {fileID: 0}
     - target: {fileID: 8535861907860477646, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
       propertyPath: m_fontSize
-      value: 0.5
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 8535861907860477646, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
       propertyPath: m_margin.x
@@ -124,6 +132,14 @@ PrefabInstance:
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 488409377a12da34c84afa2b72050f5f, type: 2}
+    - target: {fileID: 8535861907860477646, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8535861907860477646, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8535861907860477646, guid: eb8ed95c3ccee0d4aa1c5958f2d420c8, type: 3}
       propertyPath: m_fontSizeBase
       value: 0.5

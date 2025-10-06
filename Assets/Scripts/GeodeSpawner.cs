@@ -164,8 +164,11 @@ public class GeodeSpawner : MonoBehaviour
     public IEnumerator TrySpawnGeode()
     {
         yield return new WaitForSeconds(1);
-        ActiveGeode.gameObject.SetActive(false);
-        ActiveGeode = null;
+        if(ActiveGeode != null)
+        {
+            ActiveGeode.gameObject.SetActive(false);
+            ActiveGeode = null;
+        }
         SpawnGeode();
     }
     public GeodeSO GetGeodeSO(GeodeType type)

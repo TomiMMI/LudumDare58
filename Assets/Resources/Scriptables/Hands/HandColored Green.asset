@@ -18,6 +18,6 @@ MonoBehaviour:
   wantedGems:
   - {fileID: 11400000, guid: 45763b211877f9d438ae0616a10e2ad6, type: 2}
   - {fileID: 11400000, guid: 8ecb0ee30e5b50b498ac349a402418ad, type: 2}
-  DroppedGeode: {fileID: 11400000, guid: d0485fca704c9544fbf60789bb1ea515, type: 2}
+  DroppedGeode: {fileID: 11400000, guid: e60c236b67f84ea43bc4ff766d78eee0, type: 2}
   richesMultiplier: 2
   handRarity: 1
