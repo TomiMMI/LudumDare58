@@ -154,6 +154,7 @@ public class UIHandling : MonoBehaviour
 
     public void UpdatePlayerInventory()
     {
+        Debug.Log(player.GemsInInventory.Except(player.CurrentGems.Keys).Count());
         foreach (GemInfos gemInfos in player.GemsInInventory.Except(player.CurrentGems.Keys))
         {
             Gem gem = m_InventoryParent.AddToInventory(gemInfos);

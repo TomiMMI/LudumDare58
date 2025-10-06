@@ -119,6 +119,21 @@ public class GeodesAndGemsUtilities : MonoBehaviour
         }
         return null;
     }
+    public Color RarityColor(GemRarity rarity)
+    {
+        switch (rarity)
+        {
+            case GemRarity.Shit:
+                return Color.grey;
+            case GemRarity.Colorful:
+                return Color.blue;
+            case GemRarity.Epic:
+                return Color.magenta;
+            case GemRarity.Legendary:
+                return Color.yellow;
+        }
+        return Color.black;
+}
 }
 
 
