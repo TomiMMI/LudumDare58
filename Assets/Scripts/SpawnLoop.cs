@@ -41,6 +41,7 @@ public class SpawnLoop : MonoBehaviour
     private int currentHands = 0;
 
     private List<Vector3> m_HandPositions = new List<Vector3>();
+    private List<Vector3> m_HandPositionsTaken = new List<Vector3>();
     [SerializeField]
     private int maxPointCountX = 3;
     [SerializeField]
@@ -68,6 +69,7 @@ public class SpawnLoop : MonoBehaviour
     public List<float> handWeights;
     public bool shouldReset = false;
     public float maxRarity;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -169,63 +171,71 @@ public class SpawnLoop : MonoBehaviour
         while (true)
         {
             float spawnSpeed = Mathf.Lerp(m_MaxHandSpawnSpeed, m_MinHandSpawnSpeed, m_SpawnCurve.Evaluate(m_lerpValue));
-            Debug.Log(spawnSpeed + " " + m_SpawnCurve.Evaluate(m_lerpValue));
             yield return new WaitForSeconds(spawnSpeed);
             if (currentHands >= MaxHandsAtOnce)
             {
                 Debug.Log("Too much hands !");
                 continue;
             }
-
-            //Vector3 point = randomPointInTable(m_TableSpriteRenderer.bounds, TableMargin);
-            Vector3 point = m_HandPositions[i];
-            //Get a point in the sprite;
-            Main hand = GameObject.Instantiate(HandPrefab, m_HandsTransform).GetComponent<Main>();
-            if (point.y > 0)
-            {
-                hand.transform.localEulerAngles = new Vector3(0, 0, 180);
-            }
-            if (point.x < m_LeftSideTranform.localPosition.x)
-            {
-                hand.transform.localEulerAngles = new Vector3(0, 0, 270);
-            }
-            hand.transform.position = point;
-            hand.transform.localPosition -= hand.transform.up * HandSize;
-            hand.transform.localScale = Vector3.one;
-            float speed = UnityEngine.Random.Range(0.2f, 1);
-
-            //CHOOSE THE HAND SCRIPTABLE OBJECT
-            float randomRarity = UnityEngine.Random.Range(0, maxRarity);
-            HandsSO handsSO = null;
-            for (int j = 0; j < hands.Count - 1; j++)
-            {
-                if (handWeights[j] <= randomRarity && handWeights[j + 1] >= randomRarity)
-                {
-                    handsSO = hands[j];
-                    break;
-                }
-            }
-            if (handsSO == null)
-            {
-                Debug.LogError("COULDN'T FIND A VALID HAND YOUR RANDOM IS FUCKED UP");
-                handsSO = hands[0];
-            }
-            hand.Initialize(point, handsSO);
-            currentHands++;
-
-            Action func = null;
-            func = () =>
-            {
-                currentHands--;
-                hand.OnHandDestroyed -= func;
-            };
-            hand.OnHandDestroyed += () =>
-            {
-                func();
-            };
+            SpawnHand();
             i = (i + 3) % m_HandPositions.Count;
             //Destroy(hand.gameObject);
 
         }
+    }
+    public void SpawnHand()
+    {
+
+        //Vector3 point = randomPointInTable(m_TableSpriteRenderer.bounds, TableMargin);
+        Vector3 point = m_HandPositions.Except(m_HandPositionsTaken).FirstOrDefault();
+        //Get a point in the sprite;
+        Main hand = GameObject.Instantiate(HandPrefab, m_HandsTransform).GetComponent<Main>();
+        if (point.y > 0)
+        {
+            hand.transform.localEulerAngles = new Vector3(0, 0, 180);
+        }
+        if (point.x < m_LeftSideTranform.localPosition.x)
+        {
+            hand.transform.localEulerAngles = new Vector3(0, 0, 270);
+        }
+        hand.transform.position = point;
+        hand.transform.localPosition -= hand.transform.up * HandSize;
+        hand.transform.localScale = Vector3.one;
+        float speed = UnityEngine.Random.Range(0.2f, 1);
+
+        //CHOOSE THE HAND SCRIPTABLE OBJECT
+        float randomRarity = UnityEngine.Random.Range(0, maxRarity);
+        HandsSO handsSO = null;
+        for (int j = 0; j < hands.Count - 1; j++)
+        {
+            if (handWeights[j] <= randomRarity && handWeights[j + 1] >= randomRarity)
+            {
+                handsSO = hands[j];
+                break;
+            }
+        }
+        if (handsSO == null)
+        {
+            Debug.LogError("COULDN'T FIND A VALID HAND YOUR RANDOM IS FUCKED UP");
+            handsSO = hands[0];
+        }
+        hand.Initialize(point, handsSO);
+        currentHands++;
+        m_HandPositionsTaken.Add(point);
+        Action func = null;
+        func = () =>
+        {
+            m_HandPositionsTaken.Remove(point);
+            currentHands--;
+            if(currentHands == 0)
+            {
+                SpawnHand();
+            }
+            hand.OnHandDestroyed -= func;
+        };
+        hand.OnHandDestroyed += () =>
+        {
+            func();
+        };
     }
 }

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -35,6 +36,9 @@ public class UIHandling : MonoBehaviour
     public CoinStack CoinPrefab;
 
     public TMP_Text GeodeSpawnerText;
+    public Collection collection;
+    public bool isLeft = false;
+    public bool WentLeftOnce = false;
     private void Start()
     {
         Cam = Camera.main;
@@ -42,6 +46,7 @@ public class UIHandling : MonoBehaviour
         player.OnInventoryUpdated += UpdatePlayerInventory;
         UpdatePlayerInventory();
         UpdateHammerText();
+        StartCoroutine(tutorialLoop());
     }
 
     Tween HammerTween;
@@ -69,7 +74,7 @@ public class UIHandling : MonoBehaviour
         }
         else if (HammerTween != null)
         {
-            HammerTween.Complete();
+            HammerTween.Kill();
             HammerTween = null;
         }
         
@@ -81,8 +86,9 @@ public class UIHandling : MonoBehaviour
     }
     public void _OnLeftScreenRightArrowPressed(Button button)
     {
+        isLeft = false;
         //MOVE TO SCREEN TWO
-        Cam.transform.DOMove(new Vector3(TransformScreen2.position.x, TransformScreen2.position.y, Cam.transform.position.z), CameraMoveDuration).SetEase(Ease.OutQuart);
+        Cam.transform.parent.DOMove(new Vector3(TransformScreen2.position.x, TransformScreen2.position.y, Cam.transform.position.z), CameraMoveDuration).SetEase(Ease.OutQuart);
         //TODO : add checks to remove the current gem from the player drag
         //_DebugAddGem();
         //_DebugAddGem();
@@ -100,11 +106,43 @@ public class UIHandling : MonoBehaviour
         UpdatePlayerInventory();
     }
 
+    public IEnumerator tutorialLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(4);
 
+            if(player.GemsInInventory.Count == 0)
+            {
+                Tutoriel.Instance.TutoBreakGeodes();
+            }
+            if (player.GemsInInventory.Count != 0 && player.money == 0)
+            {
+                Tutoriel.Instance.TutoSellGems();
+            }
+            if(collection.foundGems == 1)
+            {
+                Tutoriel.Instance.TutoCollectGems();
+            }
+            if (WentLeftOnce == false && isLeft)
+            {
+                WentLeftOnce = true;
+                Tutoriel.Instance.TutoGiveGems();
+                yield return new WaitForSeconds(3);
+                Tutoriel.Instance.TutoWishlist();
+            }
+
+            if (player.GemsInInventory.Count == 0)
+            {
+                Tutoriel.Instance.TutoBreakGeodes();
+            }
+        }
+    }
     public void _OnRightScreenLeftArrowPressed(Button button)
     {
+        isLeft = true;
         //MOVE TO SCREEN ONE
-        Cam.transform.DOMove(new Vector3(TransformScreen1.position.x, TransformScreen1.position.y, Cam.transform.position.z), CameraMoveDuration).SetEase(Ease.OutQuart);
+        Cam.transform.parent.DOMove(new Vector3(TransformScreen1.position.x, TransformScreen1.position.y, Cam.transform.position.z), CameraMoveDuration).SetEase(Ease.OutQuart);
 
     }
 

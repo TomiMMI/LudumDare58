@@ -10,7 +10,7 @@ public class Collection : MonoBehaviour
 
     [SerializeField]
     private TMP_Text textContainer;
-    private int foundGems = 0;
+    public int foundGems = 0;
 
     private int numberofGems;
 
