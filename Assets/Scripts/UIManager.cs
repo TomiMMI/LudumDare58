@@ -46,6 +46,8 @@ public class UIHandling : MonoBehaviour
     public AudioSource audioSourceHitSound;
     public SpawnLoop spawnLoop;
     public float isLeftMusicBoost;
+    public AudioSource audioSource;
+    public AudioSource audioSourceMoney;
     private void Start()
     {
         spawnLoop = GetComponent<SpawnLoop>();
@@ -113,6 +115,7 @@ public class UIHandling : MonoBehaviour
         //_DebugAddGem();
         //_DebugAddGem();
         //_DebugAddGem();
+        audioSource.Play();
         //_DebugAddGem();
         UpdatePlayerInventory();
     }
@@ -154,6 +157,7 @@ public class UIHandling : MonoBehaviour
     public void _OnRightScreenLeftArrowPressed(Button button)
     {
         isLeft = true;
+        audioSource.Play();
         //MOVE TO SCREEN ONE
         Cam.transform.parent.DOMove(new Vector3(TransformScreen1.position.x, TransformScreen1.position.y, Cam.transform.position.z), CameraMoveDuration).SetEase(Ease.OutQuart);
 
@@ -206,7 +210,10 @@ public class UIHandling : MonoBehaviour
     public int pastMoney = 0;
     public void UpdateMoneyText(int newMoney)
     {
-
+        if(pastMoney != newMoney)
+        {
+            audioSourceMoney.Play();
+        }
         int money = pastMoney;
         Tween t = DOTween.To(() => money, x => money = x, newMoney, 0.5f);
         t.onUpdate += () =>

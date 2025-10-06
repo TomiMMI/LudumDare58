@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class ClockCanvas : MonoBehaviour
@@ -21,6 +22,8 @@ public class ClockCanvas : MonoBehaviour
 
     int currentDay = 1;
     public TextMeshProUGUI clockText;
+
+    public AudioSource audioSource;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -51,9 +54,12 @@ public class ClockCanvas : MonoBehaviour
     public IEnumerator ResetTime()
     {
         m_Clockimage.transform.DORotate(new Vector3(0,0, m_StartClockZRotation+ 365*5), 3, RotateMode.FastBeyond360);
-
         Camera.main.DOShakePosition(3,0.05f, 25);
         yield return new WaitForSeconds(3);
+        if(audioSource != null)
+        {
+            audioSource.Play();
+        }
         clockText.text = "DAY " + currentDay;
         currentDay++;
         isResetting = false;

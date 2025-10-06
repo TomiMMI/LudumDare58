@@ -60,7 +60,6 @@ public class Tutoriel : MonoBehaviour
 
     public void TutoBreakGeodes()
     {
-        Debug.Log("tetet");
         StartCoroutine(ShowLinkedMessages(BreakGeodes));
     }
 

@@ -165,10 +165,13 @@ public class GeodeSpawner : MonoBehaviour
     public IEnumerator TrySpawnGeode()
     {
         yield return new WaitForSeconds(1);
-        if(ActiveGeode != null)
+        if(ActiveGeode != null && ActiveGeode.isBeingDestroyed)
         {
             ActiveGeode.gameObject.SetActive(false);
             ActiveGeode = null;
+        }else if (!ActiveGeode.isBeingDestroyed)
+        {
+            yield break;
         }
         SpawnGeode();
     }

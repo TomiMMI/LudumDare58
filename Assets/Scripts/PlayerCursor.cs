@@ -33,6 +33,8 @@ public class PlayerCursor : MonoBehaviour
 
     public Vector3 startEulerAngles;
     public Vector2 offset;
+
+    public AudioSource audioSource;
     void Start()
     {
         Cursor.visible = false;
@@ -48,6 +50,7 @@ public class PlayerCursor : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 handSpriteRenderer.sprite = handClosedSprite;
+                audioSource.Play();
             }
             if (Input.GetMouseButtonUp(0))
             {
@@ -62,6 +65,7 @@ public class PlayerCursor : MonoBehaviour
 
         cursorMode = CursorMode.Hammer;
         this.cursorSpriteRenderer.sprite = hammerSprite;
+        
     }
 
     public void SetCursorToHand()

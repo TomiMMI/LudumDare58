@@ -24,6 +24,7 @@ public class DragDropController : MonoBehaviour
     private Vector2 mouseLastWorldPosition;
     private float mouseDownTime;
     private DragState currentState = DragState.None;
+    public AudioSource audioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -47,7 +48,8 @@ public class DragDropController : MonoBehaviour
                         mouseLastWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                         selectedObject.gameObject.layer = LayerMask.NameToLayer("Selected Gems");
                         selectedObject.transform.DOScale(1.1f, 0.2f);
-
+                        audioSource.pitch = UnityEngine.Random.Range(0.95f, 1.05f);
+                        audioSource.Play();
                     }
                 }
                 break;

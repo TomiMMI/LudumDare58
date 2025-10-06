@@ -23,6 +23,7 @@ public class Geode : MonoBehaviour
     public GeodeInfos GeodeInfos;
     public AudioSource audioSource;
     public AudioClip breakClip;
+    public bool isBeingDestroyed = false;
     void Awake()
     {
         m_spriteRenderer = GetComponent<SpriteRenderer>();
@@ -104,7 +105,7 @@ public class Geode : MonoBehaviour
     }
     private IEnumerator WaitAndDestroy()
     {
-
+        isBeingDestroyed = true;
         audioSource.PlayOneShot(breakClip);
         PlayerStats.Instance.RemoveGeodeInfo(GeodeInfos);
         OnGeodeDestroyed();
