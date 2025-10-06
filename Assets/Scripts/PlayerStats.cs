@@ -46,10 +46,15 @@ public class PlayerStats : MonoBehaviour
         OnInventoryUpdated();
     }
 
-    public void RemoveMoney(int moneyCount)
+    public bool RemoveMoney(int moneyCount)
     {
+        if (money < moneyCount)
+        {
+            return false;
+        }
         money -= moneyCount;
         OnInventoryUpdated();
+        return true;
     }
 
     public float GrinderGrindSpeed => grinderGrindSpeed;

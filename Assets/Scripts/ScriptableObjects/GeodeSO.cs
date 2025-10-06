@@ -7,6 +7,8 @@ public class GeodeSO : ScriptableObject
     public Sprite GeodeSprite;
     public GeodeType GeodeType;
 
+        public int cost;
+
 }
 
 public class GeodeInfos
