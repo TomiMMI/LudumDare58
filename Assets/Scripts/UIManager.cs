@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class UIHandling : MonoBehaviour
 {
     public static UIHandling Instance { get; private set; }
@@ -31,6 +31,10 @@ public class UIHandling : MonoBehaviour
 
     public TextMeshProUGUI MoneyText;
     public TextMeshProUGUI MoneyText2;
+
+    public TMP_Text daysCountText;
+
+    public GameObject endGameUI;
 
     public Transform CoinLocation;
 
@@ -233,6 +237,10 @@ public class UIHandling : MonoBehaviour
             hammerUpgradeCost = (int)Mathf.Pow(hammerUpgradeCost,hammerUpgradePowerScaling);
         }
         UpdateHammerText();
+    }
+    public void OnEndButtonClick()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 

@@ -20,6 +20,7 @@ public class ClockCanvas : MonoBehaviour
     bool isResetting = false;
 
     int currentDay = 1;
+
     public TextMeshProUGUI clockText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,12 +31,6 @@ public class ClockCanvas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isResetting = true;
-            StartCoroutine(ResetTime());
-        }
-
         if(!isResetting && spawnLoop.shouldReset)
         {
             isResetting = true;
@@ -56,6 +51,7 @@ public class ClockCanvas : MonoBehaviour
         yield return new WaitForSeconds(3);
         clockText.text = "DAY " + currentDay;
         currentDay++;
+        PlayerStats.Instance.currentDay += 1;
         isResetting = false;
         spawnLoop.ResetDay();
     }

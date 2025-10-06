@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField]
     private Collection collection;
+
+    public int currentDay = 0;
 
     [SerializeField]
     private GameObject suicididalTextPrefab;
@@ -108,6 +111,10 @@ public class PlayerStats : MonoBehaviour
             gemCollection.Add(gemSO);
             collection.RevealGem(gemSO.GemID);
             Debug.Log("New gem : " + gemSO.gemName);
+                        if (gemCollection.Count == GeodesAndGemsUtilities.Instance.GemList.Count)
+            {
+                StartCoroutine("EndGame");
+            }
             return true;
             //Todo : Drag to collection UI
         }
@@ -117,6 +124,13 @@ public class PlayerStats : MonoBehaviour
             return false;
             //Todo : Drag to left of the screen
         }
+    }
+    private IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(3f);
+        UIHandling.Instance.endGameUI.SetActive(true);
+        UIHandling.Instance.daysCountText.text = "You finished in " + this.currentDay / 2 + " days";
+        Time.timeScale = 0.02f;
     }
     public GeodeInfos GetGeodeFromType(GeodeType type)
     {
@@ -155,5 +169,14 @@ public class PlayerStats : MonoBehaviour
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach (GemSO temp in GeodesAndGemsUtilities.Instance.GemList)
+            {
+                collection.RevealGem(temp.GemID);
+                gemCollection.Add(temp);
+            }
+            TryToAddToCollection(null);
+        }
     }
 }
